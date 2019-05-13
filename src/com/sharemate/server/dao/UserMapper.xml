@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：映射器接口的权限定名 -->
+<mapper namespace="com.sharemate.server.dao.UserMapper">
+ <!-- 定义结果映射 -->
+ <resultMap type="com.sharemate.entity.User" id="userMapper"> <!--type别名可用user，在主配置文件已经设置  -->
+  <id column="user_id" property="userId"/>
+  <result column="user_name" property="userName"/>
+  <result column="user_password" property="userPassword"/>
+  <result column="user_photo" property="userPhoto"/>
+  <result column="user_sex" property="userSex"/>
+  <result column="user_phone" property="userPhone"/>
+  <result column="user_address" property="userAddress"/>
+  <result column="user_birth" property="userBirth"/>
+  <result column="user_intro" property="userIntro"/>
+ </resultMap>
+ <!-- 映射SQL语句  id：接口类中的方法名 resultType:返回值类型-->
+ <select id="findAllUsers" resultMap="userMapper">
+  select * from user
+ </select>
+ 
+ <!-- 根据userId查询用户 -->
+ <select id="getUserByUserId" resultMap="userMapper">
+  select * from user where user_id = #{uId}
+ </select>
+</mapper>
