@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.ReplyMapper">
+	
+	<resultMap type="com.sharemate.entity.Reply" id="replyMap">
+		<id property="replyId" column="reply_id"/>
+		<result property="reReplyId" column="re_reply_id"/>
+		<result property="replyDetail" column="reply_detail"/>
+		<result property="replyDate" column="reply_date"/>
+		<association property="comment"
+			column="{commentId = comment_id}"
+			select = "com.sharemate.server.dao.CommentMapper.getCommentByCommentId"></association>
+		<association property="user"
+			column="{id=user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"></association>
+	</resultMap>
+	
+	<!-- 根据用户的id查询该用户发布过的所有回复 -->
+	<select id="getReplyListByUserId" resultMap="replyMap">
+		select * from reply where user_id=#{userId}
+	</select>
+	<!-- 根据回复id查询回复详情 -->
+	<select id="getReplyByReplyId" resultMap="replyMap">
+		select * from reply where reply_id=#{replyId}
+	</select>
+</mapper>

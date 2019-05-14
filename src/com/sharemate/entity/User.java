@@ -2,6 +2,13 @@ package com.sharemate.entity;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author niuweiwei
+ * 用户类
+ * */
+@Repository
 public class User {
 	
 	private int userId;

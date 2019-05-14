@@ -1,6 +1,7 @@
 package com.sharemate.server.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +33,12 @@ public class LikeController {
 			JSONObject jsonLike = new JSONObject();
 			jsonLike.put("likeId", like.getLikeId());
 			jsonLike.put("note", like.getNote());
+			jsonLike.put("comment", like.getComment());
+			jsonLike.put("reply", like.getReply());
 			jsonLike.put("user", like.getUser());
-			jsonLike.put("likeDate", like.getLikeDate());
+			SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
+			String likeDate = formate.format(like.getLikeDate());
+			jsonLike.put("likeDate", likeDate);
 			jsonLikeList.add(jsonLike);
 		}
 		response.getWriter().write(jsonLikeList.toString());

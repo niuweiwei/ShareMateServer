@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sharemate.server.dao.LikeMapper">
 
-	<resultMap type="com.sharemate.server.entity.Like" id="likeMap">
+	<resultMap type="com.sharemate.entity.Like" id="likeMap">
 		<id property="likeId" column="like_id"/>
 		<result property="likeDate" column="like_date"/>
 		<association property="user" 
@@ -13,10 +13,24 @@
 		<association property="note"
 			column="{noteId=note_id}"
 			select="com.sharemate.server.dao.NoteMapper.getNoteByNoteId"/>
+		<association property="comment"
+			column="{commentId=comment_id}"
+			select="com.sharemate.server.dao.CommentMapper.getCommentByCommentId"/>
+		<association property="reply"
+			column="{replyId = reply_id}"
+			select="com.sharemate.server.dao.ReplyMapper.getReplyByReplyId"/>
 	</resultMap>
 	
 	<!-- 根据笔记的id 查询赞该笔记的信息 -->
 	<select id="getLikeListByNoteId" resultMap="likeMap">
 		select * from likes where note_id = #{noteId}
+	</select>
+	<!-- 根据评论的id查询赞过该评论的信息 -->
+	<select id="getLikeListByCommentId" resultMap="likeMap">
+		select * from likes where comment_id = #{commentId}
+	</select>
+	<!-- 根据回复的id查询赞过该回复的信息 -->
+	<select id="getLikeListByReplyId" resultMap="likeMap">
+		select * from likes where reply_id = #{replyId}
 	</select>
 </mapper>
