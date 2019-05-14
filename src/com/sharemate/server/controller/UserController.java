@@ -1,5 +1,11 @@
 package com.sharemate.server.controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,17 +17,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sharemate.entity.User;
 import com.sharemate.server.service.UserService;
+
+import net.sf.json.JSONObject;
 @Controller
-//@RequestMapping("/user")
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
 	@RequestMapping("findUserByUserId")
-	public void findUserByUserId() {
-		int userId = 1;
+	public void findUserByUserId(int userId,HttpServletResponse resp) throws IOException {
 		User user = userService.findUserByUserId(userId);
-		System.out.println(user);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date birth = new Date();
+		String userBirthStr = sdf.format(birth);
+		System.out.println("user---"+user);
+		JSONObject jsonUser = new JSONObject();
+		jsonUser.put("userId", user.getUserId());
+		jsonUser.put("userName", user.getUserName());
+		jsonUser.put("userPassword", user.getUserPassword());
+		jsonUser.put("userPhoto", user.getUserPhoto());
+		jsonUser.put("userSex", user.getUserSex());
+		jsonUser.put("userPhone", user.getUserPhone());
+		jsonUser.put("userAddress", user.getUserAddress());
+		jsonUser.put("userBirth", userBirthStr);
+		jsonUser.put("userIntro", user.getUserIntro());
+		System.out.println("jsonUser---"+jsonUser.toString());
+		resp.getWriter().append(jsonUser.toString());
 	}
 }
