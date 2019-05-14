@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.NoteMapper">
+
+	<resultMap type="com.sharemate.entity.Note" id="noteMap">
+		<id property="noteId" column="note_id"/>
+		<result property="noteTitle" column="note_title"/>
+		<result property="noteDetail" column="note_detail"/>
+		<result property="noteImage" column="note_image"/>
+		<result property="noteDate" column="note_date"/>
+		<result property="noteType" column="type_id"/>
+		<association property="user" 
+			column="{id = userId}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"></association>
+	</resultMap>
+	
+	<!-- 根据用户id查询该用户发布过的所有笔记 -->
+	<select id="getNoteListByUserId" resultMap="noteMap">
+		select * from note where user_id = #{userId}
+	</select>
+	<!-- 根据笔记id查询笔记详情 -->
+	<select id="getNoteByNoteId" resultMap="noteMap">
+		select * from note where note_id=#{noteId}
+	</select>
+
+</mapper>

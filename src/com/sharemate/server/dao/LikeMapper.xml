@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.LikeMapper">
+
+	<resultMap type="com.sharemate.server.entity.Like" id="likeMap">
+		<id property="likeId" column="like_id"/>
+		<result property="likeDate" column="like_date"/>
+		<association property="user" 
+			column="{id=user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+		<association property="note"
+			column="{noteId=note_id}"
+			select="com.sharemate.server.dao.NoteMapper.getNoteByNoteId"/>
+	</resultMap>
+	
+	<!-- 根据笔记的id 查询赞该笔记的信息 -->
+	<select id="getLikeListByNoteId" resultMap="likeMap">
+		select * from likes where note_id = #{noteId}
+	</select>
+</mapper>
