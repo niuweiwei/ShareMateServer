@@ -44,7 +44,7 @@
 	<!-- 自动扫描所有的映射器接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 配置映射器接口所在的包 -->
-		<property name="basePackage" value="net.onest.server.dao"></property>
+		<property name="basePackage" value="com.sharemate.server.dao"></property>
 	</bean>
 
 </beans>

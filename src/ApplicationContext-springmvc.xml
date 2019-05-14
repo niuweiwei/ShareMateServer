@@ -18,4 +18,9 @@
 	<!-- 添加注解支持 -->
 	<mvc:annotation-driven />
 
+	<!-- 将视图名映射为URL文件（解析的结果: 前缀+ viewName +后缀） -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
 </beans>
