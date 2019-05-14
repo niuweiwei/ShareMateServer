@@ -10,6 +10,7 @@ public class Note {
 	private String noteDate;
 	private int typeId;
 	private User user;
+	private int likeCount;
 	
 	public Note() {
 		super();
@@ -62,6 +63,14 @@ public class Note {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
 	}
 	@Override
 	public String toString() {

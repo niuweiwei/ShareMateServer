@@ -18,9 +18,23 @@
   <association property="user" 
      column="{uId=user_id}"
      select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+  <association property="likeCount" 
+     column="{nId=note_id}"
+     select="com.sharemate.server.dao.NoteMapper.getLikeCountBynoteId"/>
  </resultMap>
+ 
  <!-- 映射SQL语句  id：接口类中的方法名 resultType:返回值类型-->
  <select id="getNoteSubList" resultMap="noteMapper">
   select * from note
+ </select>
+ 
+ <!-- 根据typeId查询note -->
+ <select id="getNoteByTypeId" resultMap="noteMapper">
+  select * from note where type_id=#{typeId}
+ </select>
+ 
+ <!-- 根据noteId查询likeCount -->
+ <select id="getLikeCountBynoteId" resultType="java.lang.Integer">
+  select count(note_id) from likes where note_id=#{nId}
  </select>
 </mapper>

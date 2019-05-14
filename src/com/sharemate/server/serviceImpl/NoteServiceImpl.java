@@ -39,5 +39,11 @@ public class NoteServiceImpl implements NoteService{
 		//根据登录用户所在位置查询附近的人的笔记列表
 		return noteMapper.getNoteListByUserLocation(useraddress);
 	}
+
+	@Override
+	public int getLikeCountBynoteId(int noteId) {
+		//根据noteId查询笔记被点赞的总数
+		return noteMapper.getLikeCountBynoteId(noteId);
+	}
 	
 }
