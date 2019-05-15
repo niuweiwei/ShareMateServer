@@ -1,5 +1,10 @@
 package com.sharemate.server.serviceImpl;
 
-public class UserServiceImpl {
+import org.springframework.stereotype.Service;
+
+import com.sharemate.server.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService{
 
 }
