@@ -11,6 +11,11 @@ public class Note {
 	private int typeId;
 	private User user;
 	private int likeCount;
+	private int collectCount;
+	private int commentCount;
+	private boolean isLike;
+	private boolean isCollect;
+	private boolean isFollow;
 	
 	public Note() {
 		super();
@@ -77,6 +82,36 @@ public class Note {
 		return "Note [NoteId=" + NoteId + ", noteVideo=" + noteVideo + ", noteTitle=" + noteTitle + ", noteDetail="
 				+ noteDetail + ", noteImage=" + noteImage + ", noteDate=" + noteDate + ", typeId=" + typeId + ", user="
 				+ user + "]";
+	}
+	public boolean isLike() {
+		return isLike;
+	}
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
+	}
+	public int getCollectCount() {
+		return collectCount;
+	}
+	public void setCollectCount(int collectCount) {
+		this.collectCount = collectCount;
+	}
+	public boolean isCollect() {
+		return isCollect;
+	}
+	public void setCollect(boolean isCollect) {
+		this.isCollect = isCollect;
+	}
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	public boolean isFollow() {
+		return isFollow;
+	}
+	public void setFollow(boolean isFollow) {
+		this.isFollow = isFollow;
 	}
 	
 	

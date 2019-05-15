@@ -12,7 +12,7 @@
 </script>
 </head>
 <body>
-<form action="${ctx}/note/recommend/1?typeId=0" name="form1" method="post">
+<form action="${ctx}/note/recommend/1?typeId=1&userId=17" name="form1" method="post">
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
 </form>
 </body>

@@ -21,6 +21,13 @@
   <association property="likeCount" 
      column="{nId=note_id}"
      select="com.sharemate.server.dao.NoteMapper.getLikeCountBynoteId"/>
+  <association property="collectCount"
+     column="{nId=note_id}"
+     select="com.sharemate.server.dao.NoteMapper.getCollectCountBynoteId"/>
+  <association property="commentCount"
+     column="{nId=note_id}"
+     select="com.sharemate.server.dao.NoteMapper.getCommentCountBynoteId"/>   
+ 
  </resultMap>
  
  <!-- 映射SQL语句  id：接口类中的方法名 resultType:返回值类型-->
@@ -37,4 +44,46 @@
  <select id="getLikeCountBynoteId" resultType="java.lang.Integer">
   select count(note_id) from likes where note_id=#{nId}
  </select>
+ <!-- 根据noteId查询collectCount -->
+ <select id="getCollectCountBynoteId" resultType="java.lang.Integer">
+  select count(note_id) from collect where note_id=#{nId}
+ </select>
+ <!-- 根据noteId查询commentCount -->
+ <select id="getCommentCountBynoteId" resultType="java.lang.Integer">
+  select count(note_id) from comment where note_id=#{nId}
+ </select>
+ 
+ <!-- 根据userId查询赞表中被该用户赞过的note列表 -->
+ <select id="getNoteIdListByUserId" resultType="java.lang.Integer">
+  select ifnull(note_id,0) from likes where user_id=#{userId}
+ </select>
+ 
+ <!-- 根据userId查询赞表中被该用户赞过的note列表 -->
+ <select id="getUserIdFollowByUserId" resultType="java.lang.Integer">
+  select ifnull(followed_user_id,0) from follow where follow_user_id=#{userId}
+ </select>
+ 
+ <!-- 根据userId查询赞表中被该用户赞过的note列表 -->
+ <select id="getNoteIdCollectByUserId" resultType="java.lang.Integer">
+  select ifnull(note_id,0) from collect where user_id=#{userId}
+ </select>
+ 
+ <!-- 点赞 -->
+ <insert id="insertPick">
+  insert into likes(user_id,note_id,like_date) 
+  values(#{userId},#{noteId},#{date});
+ </insert>
+ <!-- 取消赞 -->
+ <delete id="deletePick">
+  delete from likes where user_id =#{userId} and note_id = #{noteId}
+ </delete>
+ <!-- 收藏 -->
+ <insert id="insertCollect">
+  insert into collect(user_id,note_id) 
+  values(#{userId},#{noteId});
+ </insert>
+ <!-- 取消收藏 -->
+ <delete id="deleteCollect">
+  delete from collect where user_id =#{userId} and note_id = #{noteId}
+ </delete>
 </mapper>
