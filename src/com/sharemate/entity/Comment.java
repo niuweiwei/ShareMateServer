@@ -1,6 +1,7 @@
 package com.sharemate.entity;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,14 +14,14 @@ public class Comment {
 	
 	private int commentId;
 	private String commentDetail;
-	private Date commentDate;
+	private String commentDate;
 	private User user;
 	private Note note;
 	
 	public Comment() {
 		super();
 	}
-	public Comment(int commentId, String commentDetail, Date commentDate, User user, Note note) {
+	public Comment(int commentId, String commentDetail, String commentDate, User user, Note note) {
 		super();
 		this.commentId = commentId;
 		this.commentDetail = commentDetail;
@@ -40,10 +41,10 @@ public class Comment {
 	public void setCommentDetail(String commentDetail) {
 		this.commentDetail = commentDetail;
 	}
-	public Date getCommentDate() {
+	public String getCommentDate() {
 		return commentDate;
 	}
-	public void setCommentDate(Date commentDate) {
+	public void setCommentDate(String commentDate) {
 		this.commentDate = commentDate;
 	}
 	public User getUser() {

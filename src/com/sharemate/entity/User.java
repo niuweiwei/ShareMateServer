@@ -1,6 +1,6 @@
 package com.sharemate.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +18,14 @@ public class User {
 	private String userSex;
 	private String userPhone;
 	private String userAddress;
-	private Date userBirth;
+	private String userBirth;
 	private String userIntro;
 	
 	public User() {
 		super();
 	}
 	public User(int userId, String userName, String userPassword, String userPhoto, String userSex, String userPhone,
-			String userAddress, Date userBirth, String userIntro) {
+			String userAddress, String userBirth, String userIntro) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -79,10 +79,10 @@ public class User {
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
-	public Date getUserBirth() {
+	public String getUserBirth() {
 		return userBirth;
 	}
-	public void setUserBirth(Date userBirth) {
+	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
 	public String getUserIntro() {

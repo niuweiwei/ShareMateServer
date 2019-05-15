@@ -1,5 +1,7 @@
 package com.sharemate.server.serviceImpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -60,11 +62,21 @@ public class LikeServiceImpl implements LikeService {
 		@Override
 		public int compare(Like o1, Like o2) {
 			// TODO Auto-generated method stub
-			Date date1 = o1.getLikeDate();
-			Date date2 = o2.getLikeDate();
-			if(date1.after(date2)) 
+			String date1 = o1.getLikeDate();
+			String date2 = o2.getLikeDate();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date time1 = new Date();
+			Date time2 = new Date();
+			try {
+				time1 = dateFormat.parse(date1);
+				time2 = dateFormat.parse(date2);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(time1.after(time2)) 
 				return -1;
-			else if(date1.before(date2))
+			else if(time1.before(time2))
 				return 1;
 			else
 				return 0;

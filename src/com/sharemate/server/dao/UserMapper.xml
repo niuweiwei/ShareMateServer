@@ -11,7 +11,7 @@
 		<result property="userPhoto" column="user_photo"/>
 		<result property="userSex" column="user_sex"/>
 		<result property="userAddress" column="user_address"/>
-		<result property="userBith" column="user_birth"/>
+		<result property="userBirth" column="user_birth"/>
 		<result property="userIntro" column="user_intro"/>
 	</resultMap>
 	<select id="getUserByUserId" resultMap="userMap">

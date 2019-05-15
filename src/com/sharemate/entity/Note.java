@@ -1,6 +1,8 @@
 package com.sharemate.entity;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import org.springframework.stereotype.Repository;
 
@@ -15,14 +17,14 @@ public class Note {
 	private String noteTitle;
 	private String noteDetail;
 	private String noteImage;
-	private Date noteDate;
+	private String noteDate;
 	private int noteType;
 	private User user;
 	
 	public Note() {
 		super();
 	}
-	public Note(int noteId, String noteTitle, String noteDetail, String noteImage, Date noteDate, int noteType,
+	public Note(int noteId, String noteTitle, String noteDetail, String noteImage, String noteDate, int noteType,
 			User user) {
 		super();
 		this.noteId = noteId;
@@ -57,10 +59,10 @@ public class Note {
 	public void setNoteImage(String noteImage) {
 		this.noteImage = noteImage;
 	}
-	public Date getNoteDate() {
+	public String getNoteDate() {
 		return noteDate;
 	}
-	public void setNoteDate(Date noteDate) {
+	public void setNoteDate(String noteDate) {
 		this.noteDate = noteDate;
 	}
 	public int getNoteType() {

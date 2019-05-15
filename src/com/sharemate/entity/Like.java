@@ -1,6 +1,5 @@
 package com.sharemate.entity;
 
-import java.sql.Date;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,13 +15,13 @@ public class Like {
 	private Note note;
 	private Comment comment;
 	private Reply reply;
-	private Date likeDate;
+	private String likeDate;
 	
 	public Like() {
 		super();
 	}
 	
-	public Like(int likeId, User user, Note note, Comment comment, Reply reply, Date likeDate) {
+	public Like(int likeId, User user, Note note, Comment comment, Reply reply, String likeDate) {
 		super();
 		this.likeId = likeId;
 		this.user = user;
@@ -66,10 +65,10 @@ public class Like {
 	public void setNote(Note note) {
 		this.note = note;
 	}
-	public Date getLikeDate() {
+	public String getLikeDate() {
 		return likeDate;
 	}
-	public void setLikeDate(Date likeDate) {
+	public void setLikeDate(String likeDate) {
 		this.likeDate = likeDate;
 	}
 

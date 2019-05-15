@@ -16,12 +16,12 @@ public class Reply {
 	private int reReplyId;
 	private User user;
 	private String replyDetail;
-	private Date replyDate;
+	private String replyDate;
 	
 	public Reply() {
 		super();
 	}
-	public Reply(int replyId, Comment comment, int reReplyId, User user, String replyDetail, Date replyDate) {
+	public Reply(int replyId, Comment comment, int reReplyId, User user, String replyDetail, String replyDate) {
 		super();
 		this.replyId = replyId;
 		this.comment = comment;
@@ -60,10 +60,10 @@ public class Reply {
 	public void setReplyDetail(String replyDetail) {
 		this.replyDetail = replyDetail;
 	}
-	public Date getReplyDate() {
+	public String getReplyDate() {
 		return replyDate;
 	}
-	public void setReplyDate(Date replyDate) {
+	public void setReplyDate(String replyDate) {
 		this.replyDate = replyDate;
 	}
 	@Override

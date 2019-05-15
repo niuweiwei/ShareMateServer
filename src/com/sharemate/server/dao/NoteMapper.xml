@@ -12,7 +12,7 @@
 		<result property="noteDate" column="note_date"/>
 		<result property="noteType" column="type_id"/>
 		<association property="user" 
-			column="{id = userId}"
+			column="{id = user_id}"
 			select="com.sharemate.server.dao.UserMapper.getUserByUserId"></association>
 	</resultMap>
 	

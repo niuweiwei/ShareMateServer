@@ -36,9 +36,7 @@ public class LikeController {
 			jsonLike.put("comment", like.getComment());
 			jsonLike.put("reply", like.getReply());
 			jsonLike.put("user", like.getUser());
-			SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
-			String likeDate = formate.format(like.getLikeDate());
-			jsonLike.put("likeDate", likeDate);
+			jsonLike.put("likeDate", like.getLikeDate());
 			jsonLikeList.add(jsonLike);
 		}
 		response.getWriter().write(jsonLikeList.toString());
