@@ -53,7 +53,6 @@ public class LikeServiceImpl implements LikeService {
 		}
 		//对likeList中的记录按照时间顺序进行排序
 		likeList.sort(new DateComparator());
-		System.out.println(likeList);
 		return likeList;
 	}
 

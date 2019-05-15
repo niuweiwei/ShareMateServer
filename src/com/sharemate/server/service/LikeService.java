@@ -13,7 +13,7 @@ import com.sharemate.entity.Like;
 public interface LikeService {
 
 	/**
-	 * 根据当前用户id 获取到该用户发布过的所有笔记得到的赞
+	 * 根据当前用户id 获取到该用户发布过的所有笔记,评论,回复得到的赞
 	 * @param userId 当前用户的id
 	 * @return 所有赞的信息
 	 * */
