@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 import com.sharemate.entity.User;
+import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -26,12 +27,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("findUserByUserId")
+	@RequestMapping("/findUserByUserId")
 	public void findUserByUserId(int userId,HttpServletResponse resp) throws IOException {
 		User user = userService.findUserByUserId(userId);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date birth = new Date();
-		String userBirthStr = sdf.format(birth);
 		System.out.println("user---"+user);
 		JSONObject jsonUser = new JSONObject();
 		jsonUser.put("userId", user.getUserId());
@@ -41,7 +39,7 @@ public class UserController {
 		jsonUser.put("userSex", user.getUserSex());
 		jsonUser.put("userPhone", user.getUserPhone());
 		jsonUser.put("userAddress", user.getUserAddress());
-		jsonUser.put("userBirth", userBirthStr);
+		jsonUser.put("userBirth", user.getUserBirth());
 		jsonUser.put("userIntro", user.getUserIntro());
 		System.out.println("jsonUser---"+jsonUser.toString());
 		resp.getWriter().append(jsonUser.toString());

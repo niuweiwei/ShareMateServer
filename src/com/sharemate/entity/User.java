@@ -14,7 +14,7 @@ public class User {
 	private String userSex;
 	private String userPhone;
 	private String userAddress;
-	private Date userBirth;
+	private String userBirth;
 	private String userIntro;
 	public int getUserId() {
 		return userId;
@@ -58,10 +58,10 @@ public class User {
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
-	public Date getUserBirth() {
+	public String getUserBirth() {
 		return userBirth;
 	}
-	public void setUserBirth(Date userBirth) {
+	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
 	public String getUserIntro() {
