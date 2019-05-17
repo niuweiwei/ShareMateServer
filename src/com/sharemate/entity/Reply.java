@@ -1,6 +1,7 @@
 package com.sharemate.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ public class Reply {
 
 	private int replyId;
 	private Comment comment;
-	private int reReplyId;
+	private int reReplyId;//该回复 回复的 回复id
 	private User user;
 	private String replyDetail;
 	private String replyDate;
