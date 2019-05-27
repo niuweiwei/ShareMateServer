@@ -31,8 +31,10 @@ public interface NoteMapper {
 	
 	//根据userId查询赞表中被该用户赞过的note列表
 	public List<Integer> getNoteIdListByUserId(int userId);
+	
 	//根据userId查询关注表中被该用户赞过的note列表
 	public List<Integer> getUserIdFollowByUserId(int userId);
+	
 	//根据userId查询关注表中被该用户赞过的note列表
 	public List<Integer> getNoteIdCollectByUserId(int userId);
 	
@@ -42,9 +44,18 @@ public interface NoteMapper {
 	//取消赞
 	public void deletePick(@Param("userId")int userId,@Param("noteId")int noteId);
 	
+	//加关注
+	public int insertFollow(@Param("userId")int userId,@Param("followedId")int followedId,
+			@Param("date")String date);
+	
+	//取消关注
+	public int deleteFollow(@Param("userId")int userId,@Param("followedId")int followedId);
+	
 	//收藏
 	public int insertCollect(@Param("userId")int userId,@Param("noteId")int noteId);
 	
 	//取消收藏
 	public int deleteCollect(@Param("userId")int userId,@Param("noteId")int noteId);
+	
+	
 }

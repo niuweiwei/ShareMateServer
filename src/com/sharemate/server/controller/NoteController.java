@@ -42,17 +42,15 @@ public class NoteController {
 	@Autowired
 	private NoteService noteService;
 	
-	//返回首页页面（currentPage=当前页数）
+	//返回首页推荐页面（currentPage=当前页数）
 	@RequestMapping("/recommend/{currentPage}")
 	@ResponseBody
 	public void getNoteList(ModelMap map,@PathVariable Integer currentPage,
 		HttpServletRequest request,HttpServletResponse response){
-		
 		response.setContentType("text/html;charset=UTF-8");
 		String tid = request.getParameter("typeId");
 		String uId = request.getParameter("userId");
 		int typeId = Integer.parseInt(tid);
-		System.out.println("typeid"+typeId);
 		List<Note> noteSubList = new ArrayList<>();
 		int pages=0;
 		if(typeId==0) {
@@ -69,7 +67,7 @@ public class NoteController {
 			PageInfo<Note> pageInfo = new PageInfo<>(noteList);
 			pages = pageInfo.getPages();
 		    noteSubList = pageInfo.getList();
-//		    Collections.shuffle(noteSubList);
+            //Collections.shuffle(noteSubList);
 		}
 		if(uId!=null&&!uId.equals("")) {
 			int userId = Integer.parseInt(uId);
@@ -111,7 +109,8 @@ public class NoteController {
 			e.printStackTrace();
 		}
 	}
-	//点赞
+	
+	//点赞和取消点赞
 	@RequestMapping("/pick/{noteId}")
 	@ResponseBody
 	public void pick(ModelMap map,@PathVariable Integer noteId,
@@ -119,13 +118,14 @@ public class NoteController {
 		response.setContentType("text/html;charset=UTF-8");
 		String uId = request.getParameter("userId");
 		String  like = request.getParameter("like");
-		System.out.println("likekkk"+like);
 		int userId = Integer.parseInt(uId);
-		Date d = new Date();//获取当时间对象
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");//获取时间格式
-		String date = sdf.format(d);//将当前时间临时存储time上
+		//获取当时间对象
+		Date d = new Date();
+		//获取时间格式
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		//将当前时间临时存储date上
+		String date = sdf.format(d);
 	    if(like.equals("false")) {
-	    	System.out.println(date);//打印输出当前时间
 	    	noteService.insertPick(userId, noteId, date);
 	    }else {
 	    	System.out.println("islikehhhhh:"+like);
@@ -139,27 +139,57 @@ public class NoteController {
 		}
 	}
 	
-	//点赞
-		@RequestMapping("/collect/{noteId}")
-		@ResponseBody
-		public void collect(@PathVariable Integer noteId,
-			HttpServletRequest request,HttpServletResponse response){
-			response.setContentType("text/html;charset=UTF-8");
-			String uId = request.getParameter("userId");
-			String  collect = request.getParameter("collect");
-			System.out.println("lcollect"+collect);
-			int userId = Integer.parseInt(uId);
-		    if(collect.equals("false")) {
-		    	noteService.insertCollect(userId, noteId);
-		    }else {
-		    	System.out.println("iscollect:"+collect);
-		    	noteService.deleteCollect(userId, noteId);
-		    }
-			String jsonString="已更新";
-			try {
-				response.getWriter().append(jsonString);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	//收藏和取消收藏
+	@RequestMapping("/collect/{noteId}")
+	@ResponseBody
+	public void collect(@PathVariable Integer noteId,
+		HttpServletRequest request,HttpServletResponse response){
+		response.setContentType("text/html;charset=UTF-8");
+		String uId = request.getParameter("userId");
+		String  collect = request.getParameter("collect");
+		System.out.println("lcollect"+collect);
+		int userId = Integer.parseInt(uId);
+	    if(collect.equals("false")) {
+	    	noteService.insertCollect(userId, noteId);
+	    }else {
+	    	System.out.println("iscollect:"+collect);
+	    	noteService.deleteCollect(userId, noteId);
+	    }
+		String jsonString="已更新";
+		try {
+			response.getWriter().append(jsonString);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+	
+	//关注和取消关注
+	@RequestMapping("/follow/{followedId}")
+	@ResponseBody
+	public void follow(@PathVariable Integer followedId,
+			HttpServletRequest request,HttpServletResponse response) {
+		String uId = request.getParameter("userId");
+		String  follow = request.getParameter("follow");
+		System.out.println("lfollow"+follow);
+		int userId = Integer.parseInt(uId);
+		//获取当时间对象
+		Date d = new Date();
+		//获取时间格式
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		//将当前时间临时存储date上
+		String date = sdf.format(d);
+	    if(follow.equals("false")) {
+	    	noteService.insertFollow(userId,followedId,date);
+	    }else {
+	    	System.out.println("isfollow:"+follow);
+	    	noteService.deleteFollow(userId, followedId);
+	    }
+	    String jsonString="已更新";
+		try {
+			response.getWriter().append(jsonString);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

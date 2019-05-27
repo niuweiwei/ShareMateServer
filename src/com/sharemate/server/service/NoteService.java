@@ -49,4 +49,10 @@ public interface NoteService {
 		
 		//取消收藏
 		public int deleteCollect(int userId,int noteId);
+		
+		//加关注
+		public int insertFollow(int userId,int followedId,String date);
+		
+		//取消关注
+		public int deleteFollow(int userId,int followedId);
 }

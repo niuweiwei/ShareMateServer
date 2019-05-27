@@ -100,5 +100,17 @@ public class NoteServiceImpl implements NoteService{
 		// 取消收藏
 		return noteMapper.deleteCollect(userId, noteId);
 	}
+
+	@Override
+	public int insertFollow(int userId, int followedId, String date) {
+		// 关注
+		return noteMapper.insertFollow(userId, followedId, date);
+	}
+
+	@Override
+	public int deleteFollow(int userId, int followedId) {
+		// 取消关注
+		return noteMapper.deleteFollow(userId, followedId);
+	}
 	
 }

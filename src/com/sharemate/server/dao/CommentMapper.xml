@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：映射器接口的权限定名 -->
+<mapper namespace="com.sharemate.server.dao.CommentMapper">
+ <!-- 定义评论表结果映射 -->
+ <resultMap type="com.sharemate.entity.Comment" id="noteComment"> 
+  <id column="comment_id" property="commentId"/>
+  <result column="comment_detail" property="commentDetail"/>
+  <result column="comment_date" property="commentDate"/>
+  <result column="note_id" property="noteId"/>
+  <association property="user" 
+     column="{uId=user_id}"
+     select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+  <collection property="replyList" 
+     column="{commentId=comment_id}"
+     select="getReplyListByCommentId"/>
+ </resultMap>
+ 
+ <!-- 定义回复表结果映射 -->
+ <resultMap type="com.sharemate.entity.Reply" id="commentReply"> 
+  <id column="reply_id" property="replyId"/>
+  <result column="comment_id" property="commentId"/>
+  <result column="re_reply_id" property="reReplyId"/>
+  <result column="reply_detail" property="replyDetail"/>
+  <result column="reply_time" property="replyTime"/>
+  <association property="user" 
+     column="{uId=user_id}"
+     select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+ </resultMap>
+ 
+ <!-- 定义回复的回复表结果映射 -->
+ <resultMap type="com.sharemate.entity.Reply" id="reReply"> 
+  <id column="reply_id" property="replyId"/>
+  <result column="comment_id" property="commentId"/>
+  <result column="re_reply_id" property="reReplyId"/>
+  <result column="reply_detail" property="replyDetail"/>
+  <result column="reply_time" property="replyTime"/>
+  <result column="user_id" property="userId"/>
+ </resultMap>
+ 
+ <!-- 根据noteId查询评论列表 -->
+ <select id="getCommentListByNoteId" resultMap="noteComment">
+  select *from comment where note_id = #{noteId}
+ </select>
+ 
+ <!-- 根据评论id查询评论的回复列表 -->
+ <select id="getReplyListByCommentId" resultMap="commentReply">
+  select *from reply where comment_id = #{commentId}
+ </select>
+ <!-- 根据回复id查询回复的回复列表 -->
+ <select id="getReReplyByReplyId" resultMap="reReply">
+  select *from reply where re_reply_id =#{replyId}
+ </select>
+ 
+</mapper>
