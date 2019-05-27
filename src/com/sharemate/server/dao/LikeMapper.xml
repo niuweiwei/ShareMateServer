@@ -10,27 +10,36 @@
 		<association property="user" 
 			column="{id=user_id}"
 			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
-		<association property="note"
+	</resultMap>
+	<!-- 当根据笔记的id查询like的记录 -->
+	<resultMap type="com.sharemate.entity.Like" id="likeNoteMap" extends="likeMap">
+		<association property="note" 
 			column="{noteId=note_id}"
 			select="com.sharemate.server.dao.NoteMapper.getNoteByNoteId"/>
-		<association property="comment"
+	</resultMap>
+	<!-- 当根据评论的id查询like记录时 -->
+	<resultMap type="com.sharemate.entity.Like" id="likeCommentMap" extends="likeMap">
+		<association property="comment" 
 			column="{commentId=comment_id}"
 			select="com.sharemate.server.dao.CommentMapper.getCommentByCommentId"/>
+	</resultMap>
+	<!--  当根据回复的id查询like记录-->
+	<resultMap type="com.sharemate.entity.Like" id="likeReplyMap" extends="likeMap">
 		<association property="reply"
-			column="{replyId = reply_id}"
-			select="com.sharemate.server.dao.ReplyMapper.getReplyByReplyId"/>
+			column="{replyId=reply_id}"
+			select="com.sharemate.server.dao.ReplyMapper.getReplyByReplyId"></association>
 	</resultMap>
 	
 	<!-- 根据笔记的id 查询赞该笔记的信息 -->
-	<select id="getLikeListByNoteId" resultMap="likeMap">
+	<select id="getLikeListByNoteId" resultMap="likeNoteMap">
 		select * from likes where note_id = #{noteId}
 	</select>
 	<!-- 根据评论的id查询赞过该评论的信息 -->
-	<select id="getLikeListByCommentId" resultMap="likeMap">
+	<select id="getLikeListByCommentId" resultMap="likeCommentMap">
 		select * from likes where comment_id = #{commentId}
 	</select>
 	<!-- 根据回复的id查询赞过该回复的信息 -->
-	<select id="getLikeListByReplyId" resultMap="likeMap">
+	<select id="getLikeListByReplyId" resultMap="likeReplyMap">
 		select * from likes where reply_id = #{replyId}
 	</select>
 </mapper>

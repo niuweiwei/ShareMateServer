@@ -12,7 +12,7 @@ public class Like {
 	
 	private int likeId;
 	private User user;
-	private Note note;
+	private Note note;//与该赞的记录相关的笔记
 	private Comment comment;
 	private Reply reply;
 	private String likeDate;

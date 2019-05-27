@@ -45,10 +45,24 @@ public class LikeServiceImpl implements LikeService {
 		}
 		for(Comment comment:commentList) {
 			List<Like> subCommentLikeList = likeMapper.getLikeListByCommentId(comment.getCommentId());
+			for(Like likeComment : subCommentLikeList) {
+				likeComment.setNote(likeComment.getComment().getNote());
+			}
 			likeList.addAll(subCommentLikeList);
 		}
 		for(Reply reply:replyList) {
 			List<Like> subReplyLikeList = likeMapper.getLikeListByReplyId(reply.getReplyId());
+			for(Like likeReply : subReplyLikeList) {
+				//得到的是like的回复
+				Reply likeDetail = likeReply.getReply();
+				Comment comment = likeDetail.getComment();
+				while(comment == null) {	//表示likeDetail所指的reply是对回复的回复
+				//将被likeDetail回复的回复赋值给likeDetail
+					likeDetail = replyMapper.getReplyByReplyId(likeDetail.getReReplyId());
+					comment = likeDetail.getComment();
+				}
+				likeReply.setNote(comment.getNote());
+			}
 			likeList.addAll(subReplyLikeList);
 		}
 		//对likeList中的记录按照时间顺序进行排序

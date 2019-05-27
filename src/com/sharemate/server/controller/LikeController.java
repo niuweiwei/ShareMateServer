@@ -39,6 +39,7 @@ public class LikeController {
 			jsonLike.put("likeDate", like.getLikeDate());
 			jsonLikeList.add(jsonLike);
 		}
+		System.out.println(jsonLikeList.toString());
 		response.getWriter().write(jsonLikeList.toString());
 	}
 }
