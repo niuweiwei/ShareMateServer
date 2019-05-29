@@ -2,6 +2,7 @@ package com.sharemate.server.serviceImpl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,24 @@ public class CommentServiceImpl implements CommentService{
 		return commentMapper.getReReplyByReplyId(replyId);
 	}
 
+	@Override
+	public int addComment(int userId, int noteId, String date, String comment) {
+		//添加评论
+		return commentMapper.addComment(userId, noteId, date, comment);
+	}
+
+	@Override
+	public int addReply(int userId, int commentId, String date, String reply) {
+		// 添加回复
+		return commentMapper.addReply(userId, commentId, date, reply);
+	}
+
+	@Override
+	public int addReReply(int userId, int reReplyId, String date, String reply) {
+		// 添加回复的回复
+		return commentMapper.addReReply(userId, reReplyId, date, reply);
+	}
+	
 
 
 }
