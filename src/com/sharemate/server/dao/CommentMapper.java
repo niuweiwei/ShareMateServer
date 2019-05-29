@@ -22,4 +22,9 @@ public interface CommentMapper {
 	 * @return 返回Comment对象 其中封装了Comment相关内容
 	 * */
 	public Comment getCommentByCommentId(int commentId);
+	
+	/**
+	 * 根据笔记的id查询该笔记的所有评论
+	 * */
+	public List<Comment> getCommentListByNoteId(int noteId);
 }

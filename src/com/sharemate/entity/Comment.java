@@ -15,7 +15,7 @@ public class Comment {
 	private int commentId;
 	private String commentDetail;
 	private String commentDate;
-	private User user;
+	private User user;//发布评论的用户
 	private Note note;
 	
 	public Comment() {

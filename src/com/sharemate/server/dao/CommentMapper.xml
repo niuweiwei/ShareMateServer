@@ -24,4 +24,8 @@
 	<select id="getCommentByCommentId" resultMap="commentMap">
 		select * from comment where comment_id=#{commentId}
 	</select>
+	<!-- 根据笔记的id查询该笔记的所有评论 -->
+	<select id="getCommentListByNoteId" resultMap="commentMap">
+		select * from comment where note_id = #{noteId}
+	</select>
 </mapper>

@@ -8,7 +8,7 @@
 		<id property="replyId" column="reply_id"/>
 		<result property="reReplyId" column="re_reply_id"/>
 		<result property="replyDetail" column="reply_detail"/>
-		<result property="replyDate" column="reply_date"/>
+		<result property="replyDate" column="reply_time"/>
 		<association property="comment"
 			column="{commentId = comment_id}"
 			select = "com.sharemate.server.dao.CommentMapper.getCommentByCommentId"></association>
@@ -24,5 +24,13 @@
 	<!-- 根据回复id查询回复详情 -->
 	<select id="getReplyByReplyId" resultMap="replyMap">
 		select * from reply where reply_id=#{replyId}
+	</select>
+	<!-- 根据被回复id查询回复该回复的回复列表 -->
+	<select id="getReplyListByReReplyId" resultMap="replyMap">
+		select * from reply where re_reply_id = #{reReplyId}
+	</select>
+	<!-- 根据评论id查询对该评论的所有回复 -->
+	<select id="getReplyListByCommentId" resultMap="replyMap">
+		select * from reply where comment_id = #{commentId}
 	</select>
 </mapper>

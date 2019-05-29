@@ -2,6 +2,7 @@ package com.sharemate.server.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sharemate.entity.Like;
@@ -33,4 +34,20 @@ public interface LikeMapper {
 	 * @return 赞了该回复的记录
 	 * */
 	public List<Like> getLikeListByReplyId(int replyId);
+	
+	/**
+	 * 根据返回对象判断某个用户是否点赞了该条评论 如果对象为null则代表数据库中没有该条记录 
+	 * @param userId 用户id
+	 * @param commentId 评论id
+	 * @return
+	 * */
+	public Like isLikeComment(@Param("userId")int userId,@Param("commentId")int commentId);
+	
+	/**
+	 * 根据返回对象判断某个用户是否点赞了该条回复 如果对象为null则代表数据库中没有该条记录
+	 * @param userId 用户id
+	 * @param replyId 回复id
+	 * @return
+	 * */
+	public Like isLikeReply(@Param("userId") int userId,@Param("replyId") int replyId);
 }

@@ -22,5 +22,15 @@ public interface ReplyMapper {
 	 * @return 返回回复对象
 	 * */
 	public Reply getReplyByReplyId(int replyId);
+	
+	/**
+	 * 查询回复了指定回复的回复列表
+	 * @param reReplyId 指定的回复
+	 * */
+	public List<Reply> getReplyListByReReplyId(int reReplyId);
 
+	/**
+	 * 根据指定的评论id获取对该评论的所有回复
+	 * */
+	public List<Reply> getReplyListByCommentId(int commentId);
 }

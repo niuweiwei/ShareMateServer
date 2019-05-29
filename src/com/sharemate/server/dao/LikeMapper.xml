@@ -42,4 +42,12 @@
 	<select id="getLikeListByReplyId" resultMap="likeReplyMap">
 		select * from likes where reply_id = #{replyId}
 	</select>
+	<!-- 根据用户id以及评论id查询该用户是否点赞过该条评论 -->
+	<select id="isLikeComment" resultMap="likeMap">
+		select * from likes where user_id = #{userId} and comment_id = #{commentId}
+	</select>
+	<!-- 根据用户id以及评论id查询该用户是否点赞过该条评论 -->
+	<select id="isLikeReply" resultMap="likeMap">
+		select * from likes where user_id = #{userId} and reply_id = #{replyId}
+	</select>
 </mapper>
