@@ -36,6 +36,7 @@ public class CommentAndReplyController {
 			object.put("commentedContent", item.getCommentedContent());
 			object.put("commentDate", item.getCommentDate());
 			object.put("note", item.getNote());
+			object.put("id", item.getId());
 			object.put("arguedId", item.getArguedId());
 			object.put("isLike", item.isLike());
 			jsonArray.add(object);

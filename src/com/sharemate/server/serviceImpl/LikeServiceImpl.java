@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sharemate.entity.Comment;
+import com.sharemate.entity.CommentAndReply;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
 import com.sharemate.entity.Reply;
@@ -94,5 +95,24 @@ public class LikeServiceImpl implements LikeService {
 			else
 				return 0;
 		}
+	}
+
+	@Override
+	public void likeCommentOrReply(int tag, int userId, int id) {
+		// TODO Auto-generated method stub
+		Date date = new Date();
+		if(tag == CommentAndReply.COMMENT_TYPE)
+			likeMapper.likeComment(userId, id,date);
+		else
+			likeMapper.likeComment(userId, id,date);
+	}
+
+	@Override
+	public void cancelLikeCommentOrReply(int tag, int userId, int id) {
+		// TODO Auto-generated method stub
+		if(tag == CommentAndReply.COMMENT_TYPE)
+			likeMapper.cancelLikeComment(userId, id);
+		else
+			likeMapper.cancelLikeReply(userId, id);
 	}
 }

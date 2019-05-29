@@ -1,5 +1,6 @@
 package com.sharemate.server.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -50,4 +51,38 @@ public interface LikeMapper {
 	 * @return
 	 * */
 	public Like isLikeReply(@Param("userId") int userId,@Param("replyId") int replyId);
+	
+	/**
+	 * 对评论进行点赞
+	 * @param userId 点赞的用户的id
+	 * @param commentId 点赞的评论的id
+	 * @param likeDate 点赞的日期
+	 * @return int 受影响的行数
+	 * */
+	public int likeComment(@Param("userId") int userId,@Param("commentId") int commentId,@Param("likeDate")Date likeDate);
+	
+	/**
+	 * 对回复进行点赞
+	 * @param userId 点赞的用户的id
+	 * @param replyId 点赞的回复的id
+	 * @param likeDate 点赞的日期
+	 * @return int 受影响的行数
+	 * */
+	public int likeReply(@Param("userId") int userId,@Param("replyId")int replyId,@Param("likeDate")Date likeDate);
+	
+	/**
+	 * 取消对评论的点赞
+	 * @param userId 点赞的用户的id
+	 * @param commentId 需要取消点赞的评论的id
+	 * @return int 返回受影响的行数
+	 * */
+	public int cancelLikeComment(@Param("userId")int userId,@Param("commentId")int commentId);
+	
+	/**
+	 * 取消对回复的点赞
+	 * @param userId 点赞的用户的id
+	 * @param commentId 需要取消点赞的回复的id
+	 * @return int 返回受影响的行数
+	 * */
+	public int cancelLikeReply(@Param("userId")int userId,@Param("replyId")int replyId);
 }

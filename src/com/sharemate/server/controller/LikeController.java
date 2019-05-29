@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sharemate.entity.CommentAndReply;
 import com.sharemate.entity.Like;
 import com.sharemate.server.service.LikeService;
 
@@ -42,4 +44,21 @@ public class LikeController {
 		System.out.println(jsonLikeList.toString());
 		response.getWriter().write(jsonLikeList.toString());
 	}
+	
+	@RequestMapping("likeCommentOrReply")
+	public void like(HttpServletRequest request) {
+		int tag = Integer.parseInt(request.getParameter("tag"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		int id = Integer.parseInt(request.getParameter("id"));
+		likeService.likeCommentOrReply(tag, userId, id);
+	}
+	
+	@RequestMapping("cancelLike")
+	public void cancelLike(HttpServletRequest request) {
+		int tag = Integer.parseInt(request.getParameter("tag"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		int id = Integer.parseInt(request.getParameter("id"));
+		likeService.cancelLikeCommentOrReply(tag, userId, id);
+	}
+	
 }

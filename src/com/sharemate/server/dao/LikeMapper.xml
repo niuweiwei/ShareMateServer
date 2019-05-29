@@ -50,4 +50,22 @@
 	<select id="isLikeReply" resultMap="likeMap">
 		select * from likes where user_id = #{userId} and reply_id = #{replyId}
 	</select>
+	<!-- 点赞评论 向like表中插入点赞的记录 -->
+	<insert id="likeComment">
+		insert into likes(user_id,comment_id,like_date) values(#{userId},#{commentId},#{likeDate})
+	</insert>
+	<!-- 点赞回复 向like表中插入点赞的记录 -->
+	<insert id="likeReply">
+		insert into likes(user_id,reply_id,like_date) values(#{userId},#{replyId},#{likeDate})
+	</insert>
+	<!-- 取消点赞评论 -->
+	<delete id="cancelLikeComment">
+		delete from likes 
+		where user_id = #{userId} and comment_id = #{commentId} 
+	</delete>
+	<!-- 取消点赞回复 -->
+	<delete id="cancelLikeReply">
+		delete from likes
+		where user_id = #{userId} and reply_id = #{replyId}
+	</delete>
 </mapper>

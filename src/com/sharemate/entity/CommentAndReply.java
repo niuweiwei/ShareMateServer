@@ -16,6 +16,7 @@ public class CommentAndReply {
 	 private Note note;//该评论或回复涉及到的笔记
 	 private int arguedId;//被回复的评论id或被回复的回复id
 	 private boolean isLike;//当前用户是否对该评论进行点赞
+	 private int id;//当前的评论id或回复id
 	    
 		public CommentAndReply() {
 			super();
@@ -102,6 +103,14 @@ public class CommentAndReply {
 		public boolean isLike() {
 			return isLike;
 		}
+		
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
 
 		public void setLike(boolean isLike) {
 			this.isLike = isLike;
@@ -118,7 +127,7 @@ public class CommentAndReply {
 		public static int getReReplyType() {
 			return RE_REPLY_TYPE;
 		}
-
+		
 		@Override
 		public String toString() {
 			return "CommentAndReply [tag=" + tag + ", user=" + user + ", commentContent=" + commentContent

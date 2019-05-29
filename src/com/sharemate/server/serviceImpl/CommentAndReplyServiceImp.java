@@ -39,6 +39,7 @@ public class CommentAndReplyServiceImp implements CommentAndReplyService {
 		//将对笔记的Comment对象转换为CommentAndReply对象
 		CommentAndReply commentAndReply = new CommentAndReply();
 		commentAndReply.setTag(CommentAndReply.COMMENT_TYPE);
+		commentAndReply.setId(comment.getCommentId());
 		commentAndReply.setUser(comment.getUser());
 		commentAndReply.setNote(comment.getNote());
 		commentAndReply.setCommentContent(comment.getCommentDetail());
@@ -82,6 +83,7 @@ public class CommentAndReplyServiceImp implements CommentAndReplyService {
 		commentAndReply.setUser(reply.getUser());
 		commentAndReply.setCommentContent(reply.getReplyDetail());
 		commentAndReply.setCommentDate(reply.getReplyDate());
+		commentAndReply.setId(reply.getReplyId());
 		
 		Like likeReply = likeMapper.isLikeReply(userId, reply.getReplyId());
 		if(likeReply == null)
