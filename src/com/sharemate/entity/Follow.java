@@ -8,25 +8,39 @@ package com.sharemate.entity;
 */
 public class Follow {
 	private int id;
-	private User user;
+	private User followUser;
+	private User followedUser;
 	private String followDate;
+	private boolean status;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public String getFollowDate() {
 		return followDate;
 	}
 	public void setFollowDate(String followDate) {
 		this.followDate = followDate;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	public User getFollowUser() {
+		return followUser;
+	}
+	public void setFollowUser(User followUser) {
+		this.followUser = followUser;
+	}
+	public User getFollowedUser() {
+		return followedUser;
+	}
+	public void setFollowedUser(User followedUser) {
+		this.followedUser = followedUser;
 	}
 	
 }

@@ -28,4 +28,10 @@ public interface NoteMapper {
 	 * @return
 	 */
 	public Note findNoteByNoteId(int noteId);
+	/**
+	 * 查询出用户发表过的笔记数量
+	 * @param userId
+	 * @return
+	 */
+	public int getNoteCount(int userId);
 }

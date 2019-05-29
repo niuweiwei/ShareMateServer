@@ -32,4 +32,9 @@ public class NoteServiceImpl implements NoteService{
 		return noteMapper.findNoteByNoteId(noteId);
 	}
 
+	@Override
+	public int getNoteCount(int userId) {
+		return noteMapper.getNoteCount(userId);
+	}
+
 }

@@ -6,11 +6,35 @@
 	<resultMap type="com.sharemate.entity.Follow" id="followMap">
 		<id column="id" property="id"/>
 		<result column="follow_date" property="followDate"/>
+		<result column="follow_user_id" property="followUser.userId"/>
+		<result column="followed_user_id" property="followedUser.userId"/>
 	</resultMap>
+	
 	<select id="getFollowCountByUserId" resultType="int">
 		select count(*) from follow where follow_user_id = #{userId}
 	</select>
 	<select id="getFanCountByUserId" resultType="int">
 		select count(*) from follow where followed_user_id = #{userId}
+	</select>
+	
+	<select id="getFan" resultMap="followMap">
+		select * from follow where followed_user_id = #{userId}
+	</select>
+	
+	<insert id="insertFan">
+		insert into follow(follow_user_id,followed_user_id,follow_date) 
+		values(#{followId},#{userId},NOW())
+	</insert>
+	
+	<delete id="deleteFollow">
+		delete from follow where follow_user_id = #{followId} and followed_user_id = #{userId}
+	</delete>
+	
+	<select id="eachFan" resultMap="followMap">
+		select * from follow where follow_user_id = #{followId} and followed_user_id = #{userId}
+	</select>
+	
+	<select id="getFollowed" resultMap="followMap">
+		select * from follow where follow_user_id = #{userId}
 	</select>
 </mapper>

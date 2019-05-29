@@ -19,4 +19,10 @@ public interface UserMapper {
 	 * @return
 	 */
 	public User findUserByUserId(int userId);
+	/**
+	 * 更新user信息
+	 * @param user
+	 * @return
+	 */
+	public int updateUser(User user);
 }

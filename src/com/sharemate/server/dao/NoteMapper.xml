@@ -18,4 +18,8 @@
 	<select id="findNoteByNoteId" resultMap="noteMap">
 		select * from note where note_id = #{noteId}
 	</select>
+	
+	<select id="getNoteCount" resultType="int">
+		select count(*) from note where user_id = #{userId}
+	</select>
 </mapper>

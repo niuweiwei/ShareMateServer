@@ -9,4 +9,6 @@ import com.sharemate.entity.User;
 public interface UserService {
 	
 	public User findUserByUserId(int userId);
+	
+	public int updateUser(User user);
 }

@@ -16,4 +16,6 @@ public interface NoteService {
 	public List<Note> findNoteByUserId(int userId);
 	
 	public Note findNoteByNoteId(int noteId);
+	
+	public int getNoteCount(int userId);
 }
