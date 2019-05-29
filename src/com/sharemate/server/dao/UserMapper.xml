@@ -27,4 +27,22 @@
 		user_intro=#{userIntro}
 		where user_id=#{userId}
 	</update>
+	
+	<select id="findUserByUserPhone" resultMap="userMap">
+		select * from user where user_phone = #{userPhone}
+	</select>
+	
+	<insert id="insertUser">
+		insert into user(user_name,user_password,user_photo,user_sex,user_phone,user_birth,user_address,user_intro)
+		values(#{userName},#{userPassword},#{userPhoto},#{userSex},#{userPhone},#{userBirth},#{userAddress},#{userIntro})
+	</insert>
+	
+	<select id="getMaxUserId" resultType="int">
+		select max(user_id) from user
+	</select>
+	
+	<update id="updateUser">
+		update user set user_sex=#{userSex},user_birth=#{userBirth}
+		where user_id=#{userId}
+	</update>
 </mapper>

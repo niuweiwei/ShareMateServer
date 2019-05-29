@@ -8,7 +8,17 @@ import com.sharemate.entity.User;
  */
 public interface UserService {
 	
+	public User findUserByUserPhone(String userPhone);
+	
+	public boolean isExistUser(String userPhone);
+	
 	public User findUserByUserId(int userId);
 	
 	public int updateUser(User user);
+	
+	public int insertUser(User user);
+	
+	public int getMaxUserId();
+	
+	public int updateUser(User user,int userId);
 }

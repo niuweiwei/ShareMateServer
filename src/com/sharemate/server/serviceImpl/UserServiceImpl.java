@@ -26,6 +26,35 @@ public class UserServiceImpl implements UserService{
 	public int updateUser(User user) {
 		return userMapper.updateUser(user);
 	}
+
+	@Override
+	public User findUserByUserPhone(String userPhone) {
+		return userMapper.findUserByUserPhone(userPhone);
+	}
 	
+	public boolean isExistUser(String userPhone) {
+		User user = userMapper.findUserByUserPhone(userPhone);
+//		int userId = user.getUserId();
+		if(user != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public int insertUser(User user) {
+		return userMapper.insertUser(user);
+	}
+
+	@Override
+	public int getMaxUserId() {
+		return userMapper.getMaxUserId();
+	}
+
+	@Override
+	public int updateUser(User user, int userId) {
+		return userMapper.updateUser(user, userId);
+	}
 	
 }
