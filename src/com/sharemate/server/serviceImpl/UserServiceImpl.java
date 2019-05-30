@@ -31,7 +31,9 @@ public class UserServiceImpl implements UserService{
 	public User findUserByUserPhone(String userPhone) {
 		return userMapper.findUserByUserPhone(userPhone);
 	}
-	
+	/**
+	 * 根据手机号判断用户是否存在
+	 */
 	public boolean isExistUser(String userPhone) {
 		User user = userMapper.findUserByUserPhone(userPhone);
 //		int userId = user.getUserId();
@@ -53,8 +55,26 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int updateUser(User user, int userId) {
-		return userMapper.updateUser(user, userId);
+	public int updateUser2(String userSex,String userBirth,int userId) {
+		return userMapper.updateUser2(userSex,userBirth, userId);
+	}
+
+	@Override
+	public User findUserByPhoneAndPwsd(String userPhone, String userPassword) {
+		return userMapper.findUserByPhoneAndPwsd(userPhone, userPassword);
+	}
+	/**
+	 * 根据手机号和密码判断用户是否存在
+	 * @param userPhone
+	 * @return
+	 */
+	public boolean isExistUserByPhoneAndPwsd(String userPhone,String userPassword) {
+		User user = userMapper.findUserByPhoneAndPwsd(userPhone, userPassword);
+		if(user != null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 }

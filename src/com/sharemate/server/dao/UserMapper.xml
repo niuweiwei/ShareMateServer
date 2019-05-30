@@ -41,8 +41,12 @@
 		select max(user_id) from user
 	</select>
 	
-	<update id="updateUser">
+	<update id="updateUser2">
 		update user set user_sex=#{userSex},user_birth=#{userBirth}
 		where user_id=#{userId}
 	</update>
+	
+	<select id="findUserByPhoneAndPwsd" resultMap="userMap">
+		select * from user where user_phone = #{userPhone} and user_password=#{userPassword}
+	</select>
 </mapper>

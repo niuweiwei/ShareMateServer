@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sharemate.entity.Title;
+
 /**
  * user控制类
  * @author fengjiaxing
@@ -23,16 +27,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sharemate.entity.User;
 import com.sharemate.server.service.FollowService;
+import com.sharemate.server.service.TitleService;
 import com.sharemate.server.service.UserService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	
-	private static final RequestMethod[] post = null;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TitleService titleService;
 	
 	/**
 	 * 根据手机号判断用户是否存在
@@ -56,6 +63,52 @@ public class UserController {
 			//用户不存在
 			object.put("msg", "用户不存在");
 			resp.getWriter().append(object.toString());
+		}
+	}
+	/**
+	 * 根据手机、密码判断用户是否存在
+	 * @param userPhone
+	 * @param resp
+	 * @throws IOException
+	 */
+	@RequestMapping(value="login2",method=RequestMethod.POST)
+	public void login2(HttpServletResponse resp,HttpServletRequest req) throws IOException {
+		InputStream is = req.getInputStream();
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		String json = br.readLine();
+		System.out.println("register---"+json);
+		JSONObject object = JSONObject.fromObject(json);
+		String userPhone = object.getString("userPhone");
+		String userPassword = object.getString("userPassword");
+		System.out.println("userPhone"+userPhone+"  userPassword"+userPassword);
+		
+		boolean isExist = userService.isExistUserByPhoneAndPwsd(userPhone, userPassword);
+		System.out.println("isExist----"+isExist);
+		if(isExist == true) {
+			//用户存在
+			User user = userService.findUserByPhoneAndPwsd(userPhone, userPassword);
+			int userId = user.getUserId();
+			List<Integer> typeList = new ArrayList<>();
+			List<Title> titleList = titleService.findType(userId);
+			for(int i=0;i<titleList.size();i++) {
+				typeList.add(titleList.get(i).getType().getTypeId());
+			}
+			JSONArray array = new JSONArray();
+			for(Integer i:typeList) {
+				JSONObject back = new JSONObject();
+				back.put("typeId", i);
+				back.put("msg", "该用户存在");
+				back.put("userId",userId);
+				array.add(back);
+			}
+			System.out.println("array  "+array.toString());
+			resp.getWriter().append(array.toString());
+		}else {
+			//用户不存在
+			JSONObject back = new JSONObject();
+			back.put("msg", "该用户不存在");
+			resp.getWriter().append(back.toString());
 		}
 	}
 	/**
@@ -117,11 +170,12 @@ public class UserController {
 		JSONObject object = JSONObject.fromObject(json);
 		String userSex = object.getString("userSex");
 		String userBirth = object.getString("userBirth");
-		User user = new User();
-		user.setUserSex(userSex);
-		user.setUserBirth(userBirth);
+//		User user = new User();
+//		user.setUserSex(userSex);
+//		user.setUserBirth(userBirth);
 		int maxId = userService.getMaxUserId();
-		int count = userService.updateUser(user, maxId);
+		System.out.println("maxId--"+maxId+" userSex--"+userSex+" userBirth--"+userBirth);
+		int count = userService.updateUser2(userSex,userBirth, maxId);
 		System.out.println("更新了"+count+"行");
 		if(count != 0) {
 			JSONObject result = new JSONObject();

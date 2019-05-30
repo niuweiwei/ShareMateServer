@@ -20,5 +20,9 @@ public interface UserService {
 	
 	public int getMaxUserId();
 	
-	public int updateUser(User user,int userId);
+	public int updateUser2(String userSex,String userBirth,int userId);
+	
+	public User findUserByPhoneAndPwsd(String userPhone,String userPassword);
+	
+	public boolean isExistUserByPhoneAndPwsd(String userPhone,String userPassword);
 }

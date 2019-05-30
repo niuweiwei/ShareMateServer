@@ -1,5 +1,6 @@
 package com.sharemate.server.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
@@ -49,5 +50,14 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	public int updateUser(User user,int userId);
+	public int updateUser2(@Param("userSex")String userSex,
+			@Param("userBirth")String userBirth,@Param("userId")int userId);
+	/**
+	 * 根据手机号、密码判断用户是否存在
+	 * @param userPhone
+	 * @param userPassword
+	 * @return
+	 */
+	public User findUserByPhoneAndPwsd(@Param("userPhone")String userPhone,
+			@Param("userPassword")String userPassword);
 }
