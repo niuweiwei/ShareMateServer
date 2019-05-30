@@ -20,7 +20,9 @@ import com.sharemate.server.service.UserService;
 public class NoteController {
 	@Autowired
 	public  UserService userservice;
+	@Autowired
 	public  NoteService noteservice;
+	@Autowired
 	public  FollowService followservice;
 	@RequestMapping("text")
 	public void text() {
@@ -29,16 +31,13 @@ public class NoteController {
 	}
 	@RequestMapping("allnotelist")
 	public void findAllNote(HttpServletRequest req,HttpServletResponse rep) throws Exception{
-		userservice.text();
-		int userid=1;
-		followservice.findGuanzhuUser(userid);
-//		List<Note> notelist=noteservice.findGuanzhuNote(1);
-		
+		noteservice.text();
+		List<Note> notelist=noteservice.findGuanzhuNote(1);	
 //		String jsonString="";
 //		jsonString = JsonTools.createJsonString("notelist",notelist);
 //		PrintWriter writer = rep.getWriter();
 //		writer.append(jsonString);
-//		
+		
 		
 	}
 	

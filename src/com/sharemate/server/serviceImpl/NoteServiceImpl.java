@@ -22,7 +22,7 @@ public class NoteServiceImpl implements NoteService{
 
 	@Override
 	public List<Note> findGuanzhuNote(int userid) {
-		
+		System.out.println("noteservice");
 		return noteMapper.findGuanzhuNoteById(userid);
 	}
 
