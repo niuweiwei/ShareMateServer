@@ -1,6 +1,7 @@
 package com.sharemate.server.controller;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +33,15 @@ public class NoteController {
 	@RequestMapping("allnotelist")
 	public void findAllNote(HttpServletRequest req,HttpServletResponse rep) throws Exception{
 		noteservice.text();
+		List<Note> guanzhunotelist=new ArrayList<Note>();
 		List<Follow> followlist=noteservice.findGuanzhuUser(1);
-		List<Note> notelist=noteservice.findGuanzhuNote(1);	
+		for(Follow follow:followlist) {
+			int userid=follow.getFolloweduserid();
+			System.out.println(String.valueOf(userid));
+			List<Note> notelist=noteservice.findGuanzhuNote(userid);
+			guanzhunotelist.addAll(notelist);
+		}
+		System.out.println(String.valueOf(guanzhunotelist.size()));	
 //		String jsonString="";
 //		jsonString = JsonTools.createJsonString("notelist",notelist);
 //		PrintWriter writer = rep.getWriter();
