@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sharemate.entity.Follow;
 import com.sharemate.entity.Note;
 import com.sharemate.server.dao.NoteMapper;
 import com.sharemate.server.service.NoteService;
@@ -30,6 +31,12 @@ public class NoteServiceImpl implements NoteService{
 	public void insertNote(Note note) {
 		//noteMapper.insertNote(note);
 		
+	}
+
+	@Override
+	public List<Follow> findGuanzhuUser(int followuserid) {
+		
+		return noteMapper.findGuanzhuUser(followuserid);
 	}
 
 }

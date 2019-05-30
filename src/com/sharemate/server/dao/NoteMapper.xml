@@ -10,6 +10,12 @@
 	<result property="noteCommentCount" column="note_comment_count"/>
 	<result property="noteCollectionCount" column="note_like_count"/>
 </resultMap>
+<resultMap id="getguanzhuuser" type="com.sharemate.entity.Follow">
+	<id property="id" column="id"/>
+	<result property="followuserid" column="follow_user_id"></result>
+	<result property="followeduserid" column="followed_user_id"></result>
+</resultMap>
+	<select id="findGuanzhuUser" resultMap="getguanzhuuser" >select *from follow where follow_user_id=#{followuserid}</select>
 	<select id="findGuanzhuNoteById" resultMap="guanzhunote">select * from note where user_id=#{userId} </select>
 	<insert id="insertNote">insert into note(note_title, note_detail, note_image,)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
 

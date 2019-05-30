@@ -32,6 +32,7 @@ public class NoteController {
 	@RequestMapping("allnotelist")
 	public void findAllNote(HttpServletRequest req,HttpServletResponse rep) throws Exception{
 		noteservice.text();
+		List<Follow> followlist=noteservice.findGuanzhuUser(1);
 		List<Note> notelist=noteservice.findGuanzhuNote(1);	
 //		String jsonString="";
 //		jsonString = JsonTools.createJsonString("notelist",notelist);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sharemate.entity.Follow;
 import com.sharemate.entity.Note;
 
 @Service
@@ -11,6 +12,7 @@ public interface NoteService {
 	public void text();
 	public List<Note> findGuanzhuNote(int userid);
 	public void insertNote(Note note);
+	public List<Follow> findGuanzhuUser(int followuserid);
 }
 
 
