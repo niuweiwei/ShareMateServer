@@ -201,6 +201,18 @@ public class CommentAndReplyServiceImp implements CommentAndReplyService {
 		}
 	}
 
+	@Override
+	public void replyCommentOrReply(int userId, int tag, int id,String replyDetail) {
+		// TODO Auto-generated method stub
+		Date date = new Date();
+		//判断是对评论的回复 还是对回复的回复
+		if(tag == CommentAndReply.COMMENT_TYPE) {
+			replyMapper.addCommentReply(userId, id, replyDetail, date);
+		}else {
+			replyMapper.addReplyReply(userId, id, replyDetail, date);
+		}
+	}
+
 	
 
 

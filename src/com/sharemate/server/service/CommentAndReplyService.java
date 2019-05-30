@@ -33,8 +33,16 @@ public interface CommentAndReplyService {
 	public void putReRepliesIntoList(int userId,Reply reply,List<CommentAndReply> list);
 	
 	/**
-	 * 根据用户的id
+	 * 根据用户的id查询出所有相关的评论及回复列表
 	 * */
 	public List<CommentAndReply> getAllCAndR(int userId); 
 
+	/**
+	 * 回复某条评论或回复
+	 * @param userId 发布回复的用户id
+	 * @param tag 用来判断是对评论的回复 还是对回复的回复
+	 * @param id 要进行回复的评论id 或者是回复id
+	 * @param replyDetail 回复的详情
+	 * */
+	public void replyCommentOrReply(int userId,int tag,int id,String replyDetail);
 }

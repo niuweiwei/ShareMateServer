@@ -27,4 +27,9 @@ public interface CommentMapper {
 	 * 根据笔记的id查询该笔记的所有评论
 	 * */
 	public List<Comment> getCommentListByNoteId(int noteId);
+	
+	/**
+	 * 从评论表中删除评论
+	 * */
+	public int deleteComment(int commentId);
 }

@@ -33,4 +33,18 @@
 	<select id="getReplyListByCommentId" resultMap="replyMap">
 		select * from reply where comment_id = #{commentId}
 	</select>
+	<!-- 向回复表中添加对评论的回复 -->
+	<insert id="addCommentReply">
+		insert into reply(user_id,comment_id,reply_detail,reply_time) 
+		values(#{userId},#{commentId},#{replyDetail},#{replyDate})
+	</insert>
+	<!-- 向回复表中添加对回复的回复 -->
+	<insert id="addReplyReply">
+		insert into reply(user_id,re_reply_id,reply_detail,reply_time)
+		values(#{userId},#{reReplyId},#{replyDetail},#{replyDate})
+	</insert>
+	<!-- 从回复表中删除一条回复 -->
+	<delete id="deleteReply">
+		delete from reply where reply_id = #{replyId}
+	</delete>
 </mapper>
