@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.NoteMapper">
+<resultMap id="guanzhunote" type="com.sharemate.entity.Note">
+	<id property="noteId" column="note_id"/>
+	<result property="noteTitle" column="note_title"/>
+	<result property="noteDetail" column="note_detail"/>
+	<result property="noteImage" column="note_image"/>
+	<result property="noteDate" column="note_date"/>
+	<result property="noteCommentCount" column="note_comment_count"/>
+	<result property="noteCollectionCount" column="note_like_count"/>
+</resultMap>
+	<select id="findGuanzhuNoteById" resultMap="guanzhunote">select * from note where user_id=#{userId} </select>
+	<insert id="insertNote">insert into note(note_title, note_detail, note_image,)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
+
+</mapper>
