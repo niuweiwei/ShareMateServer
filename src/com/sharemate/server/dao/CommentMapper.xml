@@ -29,7 +29,7 @@
 		select * from comment where note_id = #{noteId}
 	</select>
 	<!-- 根据评论id删除评论表中的某一条评论 -->
-	<delete id="commentId">
+	<delete id="deleteComment">
 		delete from comment where comment_id = #{commentId}
 	</delete>
 </mapper>

@@ -58,4 +58,11 @@ public class CommentAndReplyController {
 		String replyDetail = request.getParameter("replyContent");
 		service.replyCommentOrReply(userId, tag, id, replyDetail);
 	}
+	
+	@RequestMapping("deleteCommentOrReply")
+	public void deleteCommentOrReply(HttpServletRequest request) {
+		int tag = Integer.parseInt(request.getParameter("tag"));
+		int id = Integer.parseInt(request.getParameter("id"));
+		service.deleteCommentOrReply(tag, id);
+	}
 }

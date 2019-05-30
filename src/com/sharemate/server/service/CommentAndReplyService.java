@@ -45,4 +45,11 @@ public interface CommentAndReplyService {
 	 * @param replyDetail 回复的详情
 	 * */
 	public void replyCommentOrReply(int userId,int tag,int id,String replyDetail);
+	
+	/**
+	 * 删除某条评论或回复
+	 * @param tag 用于判断删除的是评论还是回复
+	 * @param id 要删除的评论的id或回复的id
+	 * */
+	public void deleteCommentOrReply(int tag,int id);
 }

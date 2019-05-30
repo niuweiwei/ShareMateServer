@@ -173,6 +173,28 @@ public class CommentAndReplyServiceImp implements CommentAndReplyService {
 		return list;
 	}
 
+	@Override
+	public void replyCommentOrReply(int userId, int tag, int id,String replyDetail) {
+		// TODO Auto-generated method stub
+		Date date = new Date();
+		//判断是对评论的回复 还是对回复的回复
+		if(tag == CommentAndReply.COMMENT_TYPE) {
+			replyMapper.addCommentReply(userId, id, replyDetail, date);
+		}else {
+			replyMapper.addReplyReply(userId, id, replyDetail, date);
+		}
+	}
+
+	@Override
+	public void deleteCommentOrReply(int tag, int id) {
+		// TODO Auto-generated method stub
+		//判断删除的是评论还是回复
+		if(tag == CommentAndReply.COMMENT_TYPE)
+			commentMapper.deleteComment(id);
+		else
+			replyMapper.deleteReply(id);
+	}
+
 	private class DateComparator implements Comparator<CommentAndReply>{
 
 		@Override
@@ -200,20 +222,6 @@ public class CommentAndReplyServiceImp implements CommentAndReplyService {
 				return 0;
 		}
 	}
-
-	@Override
-	public void replyCommentOrReply(int userId, int tag, int id,String replyDetail) {
-		// TODO Auto-generated method stub
-		Date date = new Date();
-		//判断是对评论的回复 还是对回复的回复
-		if(tag == CommentAndReply.COMMENT_TYPE) {
-			replyMapper.addCommentReply(userId, id, replyDetail, date);
-		}else {
-			replyMapper.addReplyReply(userId, id, replyDetail, date);
-		}
-	}
-
-	
 
 
 }
