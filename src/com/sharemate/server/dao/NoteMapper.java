@@ -2,7 +2,7 @@ package com.sharemate.server.dao;
 
 import java.util.List;
 
-
+import com.sharemate.entity.Collect;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
@@ -15,7 +15,7 @@ public interface NoteMapper {
 	//给对应的note赞数加一
 	public void addZanCount(Note note);
 	public void insertLike(Like like);
-//	//给对应的note收藏数加一
-//	public void addCollectCount(Note note);
-//	public void insertCollect(Collect collect);
+	//给对应的note收藏数加一
+	public void addCollectCount(Note note);
+	public void insertCollect(Collect collect);
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.sharemate.entity.Collect;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
@@ -57,15 +57,16 @@ public class NoteServiceImpl implements NoteService{
 		
 	}
 
-//	@Override
-//	public void addCollectCount(Note note) {
-//		noteMapper.addCollectCount(note);
-//		
-//	}
-//
-//	@Override
-//	public void insertCollect(Collect collect) {
-//		noteMapper.insertCollect(collect);
+	@Override
+	public void addCollectCount(Note note) {
+		noteMapper.addCollectCount(note);
 		
 	}
+
+	@Override
+	public void insertCollect(Collect collect) {
+		noteMapper.insertCollect(collect);
+		
+	}
+}
 
