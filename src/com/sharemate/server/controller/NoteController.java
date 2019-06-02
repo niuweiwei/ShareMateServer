@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import com.sharemate.entity.Follow;
+import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
 import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.NoteService;
@@ -30,6 +32,7 @@ public class NoteController {
 		userservice.text();
 		
 	}
+	//找到关注用户的所有笔记
 	@RequestMapping("allnotelist")
 	public void findAllNote(HttpServletRequest req,HttpServletResponse rep) throws Exception{
 		noteservice.text();
@@ -49,5 +52,47 @@ public class NoteController {
 		
 		
 	}
+//	@RequestMapping("collectcount")
+//	//参数int noteid,int userid
+//	public void collectAdd() {
+//		//找到对应的笔记
+//		int noteid=1;
+//		int userid=1;
+//		Note note=new Note();
+//		note=noteservice.findNoteByNoteId(noteid);
+//		//笔记收藏数+1
+//		int collectcount=note.getNoteCollectionCount();
+//		collectcount++;
+//		note.setNoteCollectionCount(collectcount);
+//		noteservice.addCollectCount(note);
+//		//加入收藏表
+//		Collect collect=new Collect();
+//		collect.setNoteid(noteid);
+//		collect.setUserid(userid);
+//		noteservice.insertCollect(collect);
+//	}
+	//点赞，赞数加一
+	@RequestMapping("zancount")
+	//参数int noteid,int userid
+	public void zanAdd() {
+		//找到对应的笔记
+		int noteid=1;
+		int userid=1;
+		Note note=new Note();
+		note=noteservice.findNoteByNoteId(noteid);
+		//笔记的赞数加一
+		int zancount=note.getNoteLikeCount();
+		System.out.println(String.valueOf(zancount));
+		zancount++;
+		System.out.println(String.valueOf(zancount));
+		note.setNoteLikeCount(zancount);
+		noteservice.addZanCount(note);
+		//加入like表
+		Like like=new Like();
+		like.setNoteid(noteid);
+		like.setUserid(userid);
+		noteservice.insertLike(like);
+	}
+	
 	
 }

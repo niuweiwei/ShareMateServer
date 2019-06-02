@@ -8,7 +8,8 @@
 	<result property="noteImage" column="note_image"/>
 	<result property="noteDate" column="note_date"/>
 	<result property="noteCommentCount" column="note_comment_count"/>
-	<result property="noteCollectionCount" column="note_like_count"/>
+	<result property="noteCollectionCount" column="note_collection_count"/>
+	<result property="noteLikeCount" column="note_Like_count"/>
 </resultMap>
 <resultMap id="getguanzhuuser" type="com.sharemate.entity.Follow">
 	<id property="id" column="id"/>
@@ -18,5 +19,9 @@
 	<select id="findGuanzhuUser" resultMap="getguanzhuuser" >select *from follow where follow_user_id=#{followuserid}</select>
 	<select id="findGuanzhuNoteById" resultMap="guanzhunote">select * from note where user_id=#{userId} </select>
 	<insert id="insertNote">insert into note(note_title, note_detail, note_image,)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
-
+	<select id="findNoteByNoteId" resultMap="guanzhunote">select * from note where note_id=#{noteid}</select>
+	<update id="addZanCount">update note set note_like_count=#{noteLikeCount} where note_id=#{noteId}</update>
+	<!--  <update id="addCollectCount">update note set note_collection_count=#{noteCollectionCount} where note_id=#{noteId}</update>
+	<insert id="insertLike">insert into likes(user_id,note_id) values(#{userid},#{noteid})</insert>-->
+	<insert id="insertLike">insert into collect(user_id,note_id) values(#{userid},#{noteid})</insert>
 </mapper>
