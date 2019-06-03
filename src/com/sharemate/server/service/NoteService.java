@@ -8,6 +8,7 @@ import com.sharemate.entity.Collect;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.entity.comment;
 
 @Service
 public interface NoteService {
@@ -21,6 +22,10 @@ public interface NoteService {
 	public void insertLike(Like like);
 	public void addCollectCount(Note note);
 	public void insertCollect(Collect collect);
+	//插入笔记基础信息
+	public void insertBaseNote(Note note);
+	//插入评论
+	public void insertComment(comment comment);
 }
 
 

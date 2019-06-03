@@ -24,4 +24,9 @@
 	<update id="addCollectCount">update note set note_collection_count=#{noteCollectionCount} where note_id=#{noteId}</update>
 	<insert id="insertLike">insert into likes(user_id,note_id) values(#{userid},#{noteid})</insert>
 	<insert id="insertCollect">insert into collect(user_id,note_id) values(#{userid},#{noteid})</insert>
+	<insert id="insertBaseNote">insert into note(note_title,note_detail) values(#{noteTitle},#{noteDetail})</insert>
+	<!--插入评论-->
+	<insert id="insertComment">insert into comment(comment_detail,comment_like_count,user_id,note_id) values(#{commentDetail},#{commentLikeCount},#{userId},#{noteId})</insert>
+	<!--插入回答-->
+	
 </mapper>

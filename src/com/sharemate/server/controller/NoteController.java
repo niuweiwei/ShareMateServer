@@ -1,5 +1,9 @@
 package com.sharemate.server.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +19,12 @@ import com.sharemate.entity.Collect;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.entity.comment;
 import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.NoteService;
 import com.sharemate.server.service.UserService;
+
+import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("note")
 public class NoteController {
@@ -45,13 +52,14 @@ public class NoteController {
 			guanzhunotelist.addAll(notelist);
 		}
 		System.out.println(String.valueOf(guanzhunotelist.size()));	
-//		String jsonString="";
-//		jsonString = JsonTools.createJsonString("notelist",notelist);
-//		PrintWriter writer = rep.getWriter();
-//		writer.append(jsonString);
+		String jsonString="";
+		jsonString = JsonTools.createJsonString("notelist",guanzhunotelist);
+		PrintWriter writer = rep.getWriter();
+		writer.append(jsonString);
 		
 		
 	}
+	//收藏，收藏数+1
 	@RequestMapping("collectcount")
 	//参数int noteid,int userid
 	public void collectAdd() {
@@ -74,10 +82,10 @@ public class NoteController {
 	//点赞，赞数加一
 	@RequestMapping("zancount")
 	//参数int noteid,int userid
-	public void zanAdd() {
-		//找到对应的笔记
-		int noteid=1;
-		int userid=1;
+	public void zanAdd(int noteid,int userid) {
+//		//找到对应的笔记
+//		int noteid=1;
+//		int userid=1;
 		Note note=new Note();
 		note=noteservice.findNoteByNoteId(noteid);
 		//笔记的赞数加一
@@ -92,6 +100,49 @@ public class NoteController {
 		like.setNoteid(noteid);
 		like.setUserid(userid);
 		noteservice.insertLike(like);
+	}
+	//插入笔记信息
+	@RequestMapping("addBaseNote")
+	public void addBaseNote(HttpServletResponse resp,HttpServletRequest req) throws IOException {
+//		InputStream is=req.getInputStream();
+//		InputStreamReader isr=new InputStreamReader(is);
+//		BufferedReader br =new BufferedReader(isr);
+//		String json=br.readLine();
+//		System.out.println("数据"+json);
+//		JSONObject object=JSONObject.fromObject(json);
+//		int userid=object.getInt("userId");
+//		String noteTitle=object.getString("noteTitle");
+//		String noteDetail=object.getString("noteDetail");
+//		String notePosition=object.getString("notePosition");
+//	    int typeid=object.getInt("typeid");
+	    Note note=new Note();
+	    note.setNoteTitle("123");
+	    note.setNoteDetail("123");
+	    noteservice.insertBaseNote(note);
+	    
+		
+	}
+	//插入评论
+	@RequestMapping("addcomment")
+	public void insertComment(HttpServletResponse resp,HttpServletRequest req) {
+//		InputStream is=req.getInputStream();
+//		InputStreamReader isr=new InputStreamReader(is);
+//		BufferedReader br =new BufferedReader(isr);
+//		String json=br.readLine();
+//		System.out.println("数据"+json);
+//		JSONObject object=JSONObject.fromObject(json);
+//		String commentdetail=object.getString("commentDetail");
+//		int commentlikecount=object.getInt("commentLikeCount");
+//		int commentUserId=object.getInt("userId");
+//		int commentNoteId=object.getInt("commentNoteId");
+//		
+		comment comment=new comment();
+		comment.setCommentDetail("123");
+		comment.setCommentLikeCount(5);
+		comment.setNoteId(3);
+		comment.setUserId(1);
+		noteservice.insertComment(comment);
+		
 	}
 	
 	

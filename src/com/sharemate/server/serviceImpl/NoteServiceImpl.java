@@ -9,6 +9,7 @@ import com.sharemate.entity.Collect;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.entity.comment;
 import com.sharemate.server.dao.NoteMapper;
 import com.sharemate.server.service.NoteService;
 import com.sharemate.server.service.UserService;
@@ -66,6 +67,18 @@ public class NoteServiceImpl implements NoteService{
 	@Override
 	public void insertCollect(Collect collect) {
 		noteMapper.insertCollect(collect);
+		
+	}
+
+	@Override
+	public void insertBaseNote(Note note) {
+		noteMapper.insertBaseNote(note);
+		
+	}
+
+	@Override
+	public void insertComment(comment comment) {
+		noteMapper.insertComment(comment);
 		
 	}
 }
