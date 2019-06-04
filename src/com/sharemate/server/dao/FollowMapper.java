@@ -19,6 +19,13 @@ public interface FollowMapper {
 	public List<Follow> getAllFollowsByFollowedId(int followedId);
 	
 	/**
+	 * 查询当前用户关注的所有用户
+	 * @param followId 即为当前用户的id
+	 * @return 返回当前用户关注的所有用户
+	 * */
+	public List<Follow> getAllFollowsByFollowId(int followId);
+	
+	/**
 	 * 查询被关注的人是否关注了 关注的人 即判断两人是否互关
 	 * @param followedId:被关注的用户的id
 	 * 				  followId:关注 的用户的id
@@ -26,6 +33,7 @@ public interface FollowMapper {
 	 * */
 	public Follow isFollow(@Param("followedId")int followedId,
 			@Param("followId")int followId);
+	
 	
 	/**
 	 * 当前用户关注指定用户

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sharemate.entity.Follow;
+import com.sharemate.entity.User;
 import com.sharemate.server.service.FollowService;
 
 import net.sf.json.JSONArray;
@@ -40,6 +41,21 @@ public class FollowController {
 			jsonFollowList.add(jsonFollow);
 		}
 		response.getWriter().write(jsonFollowList.toString());
+	}
+	
+	@RequestMapping("contactList/{followId}")
+	public void getContactList(HttpServletResponse response,@PathVariable("followId")int followId) throws IOException {
+		List<User> contactList = followService.getContactList(followId);
+		JSONArray jsonContactList = new JSONArray(); 
+		for(User user : contactList) {
+			JSONObject jsonContact = new JSONObject();
+			jsonContact.put("userId", user.getUserId());
+			jsonContact.put("userName", user.getUserName());
+			jsonContact.put("userPhoto", user.getUserPhoto());
+			jsonContactList.add(jsonContact);
+		}
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().write(jsonContactList.toString());
 	}
 	
 	@RequestMapping("addFollow/{followId}/{followedId}")

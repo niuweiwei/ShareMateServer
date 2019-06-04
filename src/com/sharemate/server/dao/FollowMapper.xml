@@ -19,6 +19,11 @@
 		select * from follow where followed_user_id = #{followedId}
 	</select>
 	
+	<!-- 根据followId 查询该用户关注的所有用户 -->
+	<select id="getAllFollowsByFollowId" resultMap="followMap">
+		select * from follow where follow_user_id = #{followId}
+	</select>
+	
 	<!-- 查询被关注的人(followedId)是否关注了关注的人(followId) -->
 	<select id="isFollow" resultMap="followMap">
 		select * from follow 

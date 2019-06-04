@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.sharemate.entity.Follow;
+import com.sharemate.entity.User;
 
 @Service
 public interface FollowService {
@@ -17,6 +18,13 @@ public interface FollowService {
 	 * @return 返回所有符合条件的关注记录
 	 * */
 	public List<Follow> getFollowList(int followedId);
+	
+	/**
+	 * 根据用户的id得到其关注的所有用户 即为其联系人的列表
+	 * @param followId 关注的人的id （当前用户id）
+	 * @return 返回联系人列表
+	 * */
+	public List<User> getContactList(int followId);
 	
 	/**
 	 * 当前用户关注指定用户

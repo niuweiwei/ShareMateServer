@@ -2,6 +2,7 @@ package com.sharemate.server.serviceImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sharemate.entity.Follow;
+import com.sharemate.entity.User;
 import com.sharemate.server.dao.FollowMapper;
 import com.sharemate.server.service.FollowService;
 
@@ -31,6 +33,18 @@ public class FollowServiceImpl implements FollowService {
 		}
 		follows.sort(new DateComparator());
 		return follows;
+	}
+	
+	@Override
+	public List<User> getContactList(int followId) {
+		// TODO Auto-generated method stub
+		List<User> contactList = new ArrayList<>();
+		List<Follow> follows = followMapper.getAllFollowsByFollowId(followId);
+		for(Follow follow :follows) {
+			User user = follow.getFollowedUser();
+			contactList.add(user);
+		}
+		return contactList;
 	}
 	
 	@Override
@@ -70,4 +84,5 @@ public class FollowServiceImpl implements FollowService {
 				return 0;
 		}
 	}
+
 }
