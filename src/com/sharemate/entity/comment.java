@@ -1,13 +1,20 @@
 package com.sharemate.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class comment {
+	private int commentId;
 	private String commentDetail;
 	private Date commentDate;
 	private int commentLikeCount;
 	private int userId;
 	private int noteId;
+	public int getCommentId() {
+		return commentId;
+	}
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
 	public String getCommentDetail() {
 		return commentDetail;
 	}
@@ -17,8 +24,8 @@ public class comment {
 	public Date getCommentDate() {
 		return commentDate;
 	}
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
+	public void setCommentDate(Date datetime) {
+		this.commentDate = datetime;
 	}
 	public int getCommentLikeCount() {
 		return commentLikeCount;

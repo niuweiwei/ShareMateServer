@@ -26,6 +26,14 @@ public interface NoteService {
 	public void insertBaseNote(Note note);
 	//插入评论
 	public void insertComment(comment comment);
+	//赞总数
+	public int getZancount(int noteid);
+	//获收藏的总数
+	public int getCollectcount(int noteid);
+	//获评论的总数
+	public int getCommentcount(int noteid);
+	//查询笔记评论
+	public List<comment> findCommentByNoteId(int noteid);
 }
 
 

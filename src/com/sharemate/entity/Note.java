@@ -8,11 +8,40 @@ public class Note {
 	private String noteDetail;
 	private String noteImage;
 	private Date noteDate;
+	private String notePosition;
 	private int noteCommentCount;
 	private int noteCollectionCount;
 	private int noteLikeCount;
+	private String userId;
+	private String typeId;
+	private String commentdetial;
+	
+	public String getCommentdetial() {
+		return commentdetial;
+	}
+	public void setCommentdetial(String commentdetial) {
+		this.commentdetial = commentdetial;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
+	}
 	public int getNoteId() {
 		return noteId;
+	}
+	public String getNotePosition() {
+		return notePosition;
+	}
+	public void setNotePosition(String notePosition) {
+		this.notePosition = notePosition;
 	}
 	public void setNoteId(int noteId) {
 		this.noteId = noteId;

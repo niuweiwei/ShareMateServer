@@ -81,5 +81,29 @@ public class NoteServiceImpl implements NoteService{
 		noteMapper.insertComment(comment);
 		
 	}
+
+	@Override
+	public int getZancount(int noteid) {
+		
+		return noteMapper.getZancount(noteid);
+	}
+
+	@Override
+	public int getCollectcount(int noteid) {
+		
+		return noteMapper.getCollectcount(noteid);
+	}
+
+	@Override
+	public int getCommentcount(int noteid) {
+		// TODO Auto-generated method stub
+		return noteMapper.getCommentcount(noteid);
+	}
+
+	@Override
+	public List<comment> findCommentByNoteId(int noteid) {
+		// TODO Auto-generated method stub
+		return noteMapper.findCommentByNoteId(noteid);
+	}
 }
 
