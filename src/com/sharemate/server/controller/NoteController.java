@@ -61,7 +61,7 @@ public class NoteController {
 		    pages = pageInfo.getPages();
 		    noteSubList = pageInfo.getList();
 		}else {
-			PageHelper.startPage(currentPage,20);
+			PageHelper.startPage(currentPage,30);
             //根据typeId查询note
 			List<Note> noteList=noteService.getNoteByTypeId(typeId);
 			PageInfo<Note> pageInfo = new PageInfo<>(noteList);
@@ -81,13 +81,13 @@ public class NoteController {
 				for(int noteId:noteIdList) {
 					if(note.getNoteId()==noteId) {
 						note.setLike(true);
-						break;
+						continue;
 					}
 				}
 				for(int noteId:noteIdCollectList) {
 					if(note.getNoteId()==noteId) {
 						note.setCollect(true);
-						break;
+						continue;
 					}
 				}
 				for(int userid:userIdFollowList) {
@@ -109,6 +109,65 @@ public class NoteController {
 			e.printStackTrace();
 		}
 	}
+	
+	//返回附近页面（currentPage=当前页数）
+	@RequestMapping("/nearby/{currentPage}")
+	@ResponseBody
+	public void getNearbyNoteList(ModelMap map,@PathVariable Integer currentPage,
+			HttpServletRequest request,HttpServletResponse response){
+		response.setContentType("text/html;charset=UTF-8");
+		String address = request.getParameter("address");
+		String uId = request.getParameter("userId");
+		List<Note> noteSubList = new ArrayList<>();
+		int pages=0;
+		if(!address.equals("")) {
+		    PageHelper.startPage(currentPage,30);
+		    List<Note> noteList = noteService.getNearbyNoteList(address);
+		    Collections.shuffle(noteList);
+		    PageInfo<Note> pageInfo = new PageInfo<>(noteList);
+		    pages = pageInfo.getPages();
+		    noteSubList = pageInfo.getList();
+		}
+		if(uId!=null&&!uId.equals("")) {
+			int userId = Integer.parseInt(uId);
+			List<Integer> noteIdList = new ArrayList<>();
+			noteIdList = noteService.getNoteIdListByUserId(userId);
+			List<Integer> userIdFollowList = new ArrayList<>();
+			userIdFollowList = noteService.getUserIdFollowByUserId(userId);
+			List<Integer> noteIdCollectList = new ArrayList<>();
+			noteIdCollectList = noteService.getNoteIdCollectByUserId(userId);
+			for(Note note:noteSubList) {
+				for(int noteId:noteIdList) {
+					if(note.getNoteId()==noteId) {
+						note.setLike(true);
+						continue;
+					}
+				}
+				for(int noteId:noteIdCollectList) {
+					if(note.getNoteId()==noteId) {
+						note.setCollect(true);
+						continue;
+					}
+				}
+				for(int userid:userIdFollowList) {
+					if(note.getUser().getUserId()==userid) {
+						note.setFollow(true);
+						break;
+					}
+				}
+			}
+		}
+		String jsonString="";
+	    Map<String, Object> m = new HashMap<>();
+	    m.put("note", noteSubList);
+	    m.put("pages", pages);
+	    jsonString = JsonTools.createJsonString("map",m);
+		try {
+			response.getWriter().append(jsonString);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}			
+		}	
 	
 	//点赞和取消点赞
 	@RequestMapping("/pick/{noteId}")

@@ -11,6 +11,9 @@ public interface NoteMapper {
 	//分页查询得到部分笔记列表
 	public List<Note> getNoteSubList();
 	
+	//分页查询得到附近笔记列表
+	public List<Note> getNearbyNoteList(String address);
+	
 	//根据typeId查询笔记列表
 	public List<Note> getNoteByTypeId(int typeId);
 	

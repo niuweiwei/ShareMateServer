@@ -72,4 +72,35 @@
   values(#{reply},#{date},#{userId},#{reReplyId}) 
  </insert>
  
+ <!-- 根据userId查询赞表中被该用户赞过的评论列表 -->
+ <select id="getLikeCommentByUserId" resultType="java.lang.Integer">
+  select ifnull(comment_id,0) from likes where user_id=#{userId}
+ </select>
+ 
+ <!-- 根据userId查询赞表中被该用户赞过的回复列表 -->
+ <select id="getLikeReplyByUserId" resultType="java.lang.Integer">
+  select ifnull(reply_id,0) from likes where user_id=#{userId}
+ </select>
+ 
+ <!-- 点赞 -->
+ <insert id="insertPick">
+  insert into likes(user_id,comment_id,like_date) 
+  values(#{userId},#{commentId},#{date});
+ </insert>
+ 
+ <!-- 取消赞 -->
+ <delete id="deletePick">
+  delete from likes where user_id =#{userId} and comment_id = #{commentId}
+ </delete>
+ 
+ <!-- 回复点赞 -->
+ <insert id="insertReplyPick">
+  insert into likes(user_id,reply_id,like_date) 
+  values(#{userId},#{replyId},#{date});
+ </insert>
+ 
+ <!-- 回复取消赞 -->
+ <delete id="deleteReplyPick">
+  delete from likes where user_id =#{userId} and reply_id = #{replyId}
+ </delete>
 </mapper>

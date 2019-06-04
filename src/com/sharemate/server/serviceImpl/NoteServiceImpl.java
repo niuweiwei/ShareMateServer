@@ -112,5 +112,11 @@ public class NoteServiceImpl implements NoteService{
 		// 取消关注
 		return noteMapper.deleteFollow(userId, followedId);
 	}
+
+	@Override
+	public List<Note> getNearbyNoteList(String address) {
+		//分页查询得到附近笔记列表
+		return noteMapper.getNearbyNoteList(address);
+	}
 	
 }

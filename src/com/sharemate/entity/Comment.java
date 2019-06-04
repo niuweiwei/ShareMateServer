@@ -10,6 +10,8 @@ public class Comment {
 	private User user;
 	private int noteId;
 	private List<Reply> replyList;
+	private boolean isLike;
+	
 	public Comment() {
 		super();
 	}
@@ -50,8 +52,11 @@ public class Comment {
 	public void setReplyList(List<Reply> replyList) {
 		this.replyList = replyList;
 	}
-	
-	
-	
+	public boolean isLike() {
+		return isLike;
+	}
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
+	}
 	
 }

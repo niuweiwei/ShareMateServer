@@ -74,6 +74,43 @@ public class CommentServiceImpl implements CommentService{
 		// 添加回复的回复
 		return commentMapper.addReReply(userId, reReplyId, date, reply);
 	}
+
+	@Override
+	public List<Integer> getLikeCommentByUserId(int userId) {
+		////根据userId查询赞表中被该用户赞过的评论列表 
+		return commentMapper.getLikeCommentByUserId(userId);
+	}
+
+	@Override
+	public List<Integer> getLikeReplyByUserId(int userId) {
+		//根据userId查询赞表中被该用户赞过的回复列表 
+		return commentMapper.getLikeReplyByUserId(userId);
+	}
+
+	@Override
+	public int insertPick(int userId, int commentId, String date) {
+		//评论点赞
+		return commentMapper.insertPick(userId, commentId, date);
+		
+	}
+
+	@Override
+	public int deletePick(int userId, int commentId) {
+		//评论取消赞
+		return commentMapper.deletePick(userId, commentId);
+	}
+
+	@Override
+	public int insertReplyPick(int userId, int replyId, String date) {
+		// 回复点赞
+		return commentMapper.insertReplyPick(userId, replyId, date);
+	}
+
+	@Override
+	public int deleteReplyPick(int userId, int replyId) {
+		//回复取消赞
+		return commentMapper.deleteReplyPick(userId, replyId);
+	}
 	
 
 

@@ -27,4 +27,22 @@ public interface CommentMapper {
 	//添加回复的回复
 	public int addReReply(@Param("userId")int userId,@Param("reReplyId")int reReplyId,
 			@Param("date")String date,@Param("reply")String reply);
+	
+	//根据userId查询赞表中被该用户赞过的评论列表 
+	public List<Integer> getLikeCommentByUserId(int userId);
+	
+	//根据userId查询赞表中被该用户赞过的回复列表 
+	public List<Integer> getLikeReplyByUserId(int userId);
+	
+	//评论点赞
+	public int insertPick(@Param("userId")int userId, @Param("commentId")int commentId,
+			@Param("date")String date);
+	//评论取消赞
+	public int deletePick(@Param("userId")int userId, @Param("commentId")int commentId);
+	
+	//回复点赞
+	public int insertReplyPick(@Param("userId")int userId, @Param("replyId")int commentId,
+			@Param("date")String date);
+	//回复取消赞
+	public int deleteReplyPick(@Param("userId")int userId, @Param("replyId")int commentId);
 }

@@ -35,6 +35,12 @@
   select * from note
  </select>
  
+ <!-- 查询附近的笔记列表-->
+ <select id="getNearbyNoteList" resultMap="noteMapper">
+  select * from note where user_id in
+  (select user_id from user where user_address=#{address})
+ </select>
+ 
  <!-- 根据typeId查询note -->
  <select id="getNoteByTypeId" resultMap="noteMapper">
   select * from note where type_id=#{typeId}
