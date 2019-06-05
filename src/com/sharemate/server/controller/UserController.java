@@ -41,7 +41,7 @@ public class UserController {
 	@Autowired
 	private TitleService titleService;
 	/**
-	 * 根据手机号判断用户是否存在
+	 * 根据手机号判断用户是否登录过
 	 * @param userPhone
 	 * @param resp
 	 * @throws IOException 
