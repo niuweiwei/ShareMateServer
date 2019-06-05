@@ -14,6 +14,7 @@
   <result column="note_detail" property="noteDetail"/>
   <result column="note_image" property="noteImage"/>
   <result column="note_date" property="noteDate"/>
+  <result column="note_address" property="noteAddress"/>
   <result column="type_id" property="typeId"/>
   <association property="user" 
      column="{uId=user_id}"
@@ -35,10 +36,9 @@
   select * from note
  </select>
  
- <!-- 查询附近的笔记列表-->
+ <!-- 根据用户定位查询附近的笔记列表-->
  <select id="getNearbyNoteList" resultMap="noteMapper">
-  select * from note where user_id in
-  (select user_id from user where user_address=#{address})
+  select * from note where note_address=#{address}
  </select>
  
  <!-- 根据typeId查询note -->

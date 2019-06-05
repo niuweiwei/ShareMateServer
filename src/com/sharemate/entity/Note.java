@@ -8,6 +8,7 @@ public class Note {
 	private String noteDetail;
 	private String noteImage;
 	private String noteDate;
+	private String noteAddress;
 	private int typeId;
 	private User user;
 	private int likeCount;
@@ -112,6 +113,12 @@ public class Note {
 	}
 	public void setFollow(boolean isFollow) {
 		this.isFollow = isFollow;
+	}
+	public String getNoteAddress() {
+		return noteAddress;
+	}
+	public void setNoteAddress(String noteAddress) {
+		this.noteAddress = noteAddress;
 	}
 	
 	
