@@ -1,22 +1,31 @@
 package com.sharemate.server.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sharemate.entity.Note;
 import com.sharemate.entity.Title;
 
 /**
@@ -50,7 +59,7 @@ public class UserController {
 	public void isLogin(String userPhone,HttpServletResponse resp) throws IOException {
 		boolean isExist = userService.isExistUser(userPhone);
 		System.out.println("isExist----"+isExist);
-		JSONObject object = new JSONObject();
+		JSONObject back = new JSONObject();
 		if(isExist == true) {
 			//用户存在
 			User user = userService.findUserByUserPhone(userPhone);
@@ -60,14 +69,12 @@ public class UserController {
 			for(int i=0;i<titleList.size();i++) {
 				typeList.add(titleList.get(i).getType().getTypeId());
 			}
-			JSONArray array = new JSONArray();
-			for(Integer i:typeList) {
-				object.put("typeId", i);
-				object.put("msg", "该用户存在");
-				object.put("userId",userId);
-				array.add(object);
-			}
-			resp.getWriter().append(array.toString());
+			Map<String,Object> map = new HashMap<>();
+			map.put("typeList", typeList);
+			map.put("user", user);
+			back.put("map", map);
+			System.out.println("back---"+back.toString());
+			resp.getWriter().append(back.toString());
 		}
 	}
 	
@@ -85,13 +92,8 @@ public class UserController {
 		if(isExist == true) {
 			//用户存在
 			User user = userService.findUserByUserPhone(userPhone);
-			object.put("msg", "用户存在");
-			object.put("userId", user.getUserId());
-			object.put("userPhone", user.getUserPhone());
-			resp.getWriter().append(object.toString());
-		}else {
-			//用户不存在
-			object.put("msg", "用户不存在");
+			object.put("user", user);
+			System.out.println(user.getUserPhone());
 			resp.getWriter().append(object.toString());
 		}
 	}
@@ -116,6 +118,7 @@ public class UserController {
 		boolean isExist = userService.isExistUser(userPhone);
 		System.out.println("isExist----"+isExist);
 		JSONObject back = new JSONObject();
+		Map<String,Object> map = new HashMap<>();
 		if(isExist == true) {
 			//用户存在
 			User user = userService.findUserByUserPhone(userPhone);
@@ -128,32 +131,30 @@ public class UserController {
 				for(int i=0;i<titleList.size();i++) {
 					typeList.add(titleList.get(i).getType().getTypeId());
 				}
-				JSONArray array = new JSONArray();
-				for(Integer i:typeList) {
-					back.put("typeId", i);
-					back.put("msg", "该用户存在");
-					back.put("userId",userId);
-					array.add(back);
-				}
-				System.out.println("array  "+array.toString());
-				resp.getWriter().append(array.toString());
+				String msg = "该用户存在";
+				map.put("typeList", typeList);
+				map.put("user", user);
+				map.put("msg", msg);
+				back.put("map", map);
+				System.out.println("back---"+back.toString());
+				resp.getWriter().append(back.toString());
 			}else {
-				JSONArray array = new JSONArray();
-				back.put("typeId", 0);
-				back.put("msg", "密码输入错误");
-				back.put("userId",0);
-				array.add(back);
-				System.out.println("msg="+back.toString());
-				resp.getWriter().append(array.toString());
+				String msg = "密码输入错误";
+				map.put("typeList", null);
+				map.put("user", null);
+				map.put("msg", msg);
+				back.put("map", map);
+				System.out.println("back---"+back.toString());
+				resp.getWriter().append(back.toString());
 			}
 		}else {
 			//用户不存在
-			JSONArray array = new JSONArray();
-			back.put("typeId", 0);
-			back.put("msg", "该用户不存在");
-			back.put("userId",0);
-			array.add(back);
-			System.out.println("msg="+back.toString());
+			String msg = "该用户不存在";
+			map.put("typeList", null);
+			map.put("user", null);
+			map.put("msg", msg);
+			back.put("map", map);
+			System.out.println("back---"+back.toString());
 			resp.getWriter().append(back.toString());
 		}
 	}
@@ -225,35 +226,12 @@ public class UserController {
 		System.out.println("更新了"+count+"行");
 		if(count != 0) {
 			JSONObject result = new JSONObject();
-			result.put("msg", "更新成功");
-			result.put("userId", maxId);
+			User u = userService.findUserByUserId(maxId);
+			result.put("user", u);
 			resp.getWriter().append(result.toString());
 		}else {
 			resp.getWriter().append("更新失败");
 		}
-	}
-	/**
-	 * 根据userId查询user
-	 * @param userId
-	 * @param resp
-	 * @throws IOException
-	 */
-	@RequestMapping("/findUserByUserId")
-	public void findUserByUserId(int userId,HttpServletResponse resp) throws IOException {
-		User user = userService.findUserByUserId(userId);
-		System.out.println("user---"+user);
-		JSONObject jsonUser = new JSONObject();
-		jsonUser.put("userId", user.getUserId());
-		jsonUser.put("userName", user.getUserName());
-		jsonUser.put("userPassword", user.getUserPassword());
-		jsonUser.put("userPhoto", user.getUserPhoto());
-		jsonUser.put("userSex", user.getUserSex());
-		jsonUser.put("userPhone", user.getUserPhone());
-		jsonUser.put("userAddress", user.getUserAddress());
-		jsonUser.put("userBirth", user.getUserBirth());
-		jsonUser.put("userIntro", user.getUserIntro());
-		System.out.println("jsonUser---"+jsonUser.toString());
-		resp.getWriter().append(jsonUser.toString());
 	}
 	/**
 	 * 更新用户信息
@@ -292,4 +270,44 @@ public class UserController {
 			resp.getWriter().append("更新失败");
 		}
 	}
+	/**
+	 * 修改头像
+	 * @param userId
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 */
+	@RequestMapping("updatePhoto")
+	public void updatePhoto(int userId,HttpServletRequest req,HttpServletResponse resp) throws IOException {
+		System.out.println("updatePhoto");
+		//1、创建DiskFileItemFactory对象，设置缓冲区大小和临时文件目录。 
+	    DiskFileItemFactory factory = new DiskFileItemFactory();
+	    //2、使用DiskFileItemFactory 对象创建ServletFileUpload对象，并设置上传文件的大小限制。
+	    ServletFileUpload upload = new ServletFileUpload(factory);
+		String userPhoto = "";   
+	    try{  
+	    	//3、调用ServletFileUpload.parseRequest方法解析request对象，得到一个保存了所有上传内容的List对象。
+	    	List<FileItem>list = upload.parseRequest(req);
+			for(FileItem item:list) {
+				if(item.isFormField()) {
+					//4.1、 为普通表单字段，则调用getFieldName、getString方法得到字段名和字段值。
+				}else{  
+					//4.2、为上传文件，则调用getInputStream方法得到数据输入流，从而读取上传数据。
+					//pathName有的浏览器会返回文件名，而有的浏览器会返回“路径”+“文件名”
+					String pathName = item.getName(); 
+					//fileName获取的是文件的名字
+					String fileName = pathName.substring(pathName.lastIndexOf("\\")+1);
+					System.out.print(fileName);
+					//serverPath是项目运行后的路径,在使用ServletContext.getRealPath() 时，传入的参数是从 当前servlet 部署在tomcat中的文件夹算起的相对路径，要以"/" 开头，否则会找不到路径，导致NullPointerException
+					String serverPath = req.getSession().getServletContext().getRealPath("/");
+					fileName = userId+".jpg";
+					item.write(new File(serverPath+"\\images\\userPhotos\\",fileName));
+					userPhoto = fileName;
+					System.out.println(userPhoto);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();  
+        }     
+	  }
 }
