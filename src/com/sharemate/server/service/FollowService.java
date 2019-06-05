@@ -28,4 +28,5 @@ public interface FollowService {
 	public boolean eachFan(int followId,int userId);
 	
 	public List<Follow> getFollowed(int userId);
+	
 }

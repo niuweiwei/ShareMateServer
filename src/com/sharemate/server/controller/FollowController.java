@@ -111,7 +111,7 @@ public class FollowController {
 	@RequestMapping("/insertFan")
 	public void insertFan(int followId,int userId,HttpServletResponse resp) throws IOException {
 		int i = followService.insertFan(followId, userId);
-		System.out.println("插入了第："+i+"行");
+		System.out.println("插入了："+i+"行");
 		if(i!=0) {
 			resp.getWriter().append("插入成功");
 		}else {
@@ -128,7 +128,7 @@ public class FollowController {
 	@RequestMapping("deleteFollow")
 	public void deleteFollow(int followId,int userId,HttpServletResponse resp) throws IOException {
 		int i = followService.deleteFollow(followId, userId);
-		System.out.println("删除了第："+i+"行");
+		System.out.println("删除了："+i+"行");
 		if(i!=0) {
 			resp.getWriter().append("删除成功");
 		}else {

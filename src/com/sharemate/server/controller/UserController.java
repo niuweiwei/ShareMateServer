@@ -40,6 +40,36 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private TitleService titleService;
+	/**
+	 * 根据手机号判断用户是否存在
+	 * @param userPhone
+	 * @param resp
+	 * @throws IOException 
+	 */
+	@RequestMapping("isLogin")
+	public void isLogin(String userPhone,HttpServletResponse resp) throws IOException {
+		boolean isExist = userService.isExistUser(userPhone);
+		System.out.println("isExist----"+isExist);
+		JSONObject object = new JSONObject();
+		if(isExist == true) {
+			//用户存在
+			User user = userService.findUserByUserPhone(userPhone);
+			int userId = user.getUserId();
+			List<Integer> typeList = new ArrayList<>();
+			List<Title> titleList = titleService.findType(userId);
+			for(int i=0;i<titleList.size();i++) {
+				typeList.add(titleList.get(i).getType().getTypeId());
+			}
+			JSONArray array = new JSONArray();
+			for(Integer i:typeList) {
+				object.put("typeId", i);
+				object.put("msg", "该用户存在");
+				object.put("userId",userId);
+				array.add(object);
+			}
+			resp.getWriter().append(array.toString());
+		}
+	}
 	
 	/**
 	 * 根据手机号判断用户是否存在
@@ -67,7 +97,7 @@ public class UserController {
 	}
 	/**
 	 * 根据手机、密码判断用户是否存在
-	 * @param userPhone
+	 * @param req
 	 * @param resp
 	 * @throws IOException
 	 */
@@ -77,37 +107,53 @@ public class UserController {
 		InputStreamReader isr = new InputStreamReader(is);
 		BufferedReader br = new BufferedReader(isr);
 		String json = br.readLine();
-		System.out.println("register---"+json);
+		System.out.println("login2---"+json);
 		JSONObject object = JSONObject.fromObject(json);
 		String userPhone = object.getString("userPhone");
 		String userPassword = object.getString("userPassword");
-		System.out.println("userPhone"+userPhone+"  userPassword"+userPassword);
+		System.out.println("userPhone:"+userPhone+"  userPassword:"+userPassword);
 		
-		boolean isExist = userService.isExistUserByPhoneAndPwsd(userPhone, userPassword);
+		boolean isExist = userService.isExistUser(userPhone);
 		System.out.println("isExist----"+isExist);
+		JSONObject back = new JSONObject();
 		if(isExist == true) {
 			//用户存在
-			User user = userService.findUserByPhoneAndPwsd(userPhone, userPassword);
+			User user = userService.findUserByUserPhone(userPhone);
 			int userId = user.getUserId();
-			List<Integer> typeList = new ArrayList<>();
-			List<Title> titleList = titleService.findType(userId);
-			for(int i=0;i<titleList.size();i++) {
-				typeList.add(titleList.get(i).getType().getTypeId());
-			}
-			JSONArray array = new JSONArray();
-			for(Integer i:typeList) {
-				JSONObject back = new JSONObject();
-				back.put("typeId", i);
-				back.put("msg", "该用户存在");
-				back.put("userId",userId);
+			String userPassword2 = user.getUserPassword();
+			System.out.println("userPassword="+userPassword+";userPassword2="+userPassword2);
+			if(userPassword.equals(userPassword2)) {
+				List<Integer> typeList = new ArrayList<>();
+				List<Title> titleList = titleService.findType(userId);
+				for(int i=0;i<titleList.size();i++) {
+					typeList.add(titleList.get(i).getType().getTypeId());
+				}
+				JSONArray array = new JSONArray();
+				for(Integer i:typeList) {
+					back.put("typeId", i);
+					back.put("msg", "该用户存在");
+					back.put("userId",userId);
+					array.add(back);
+				}
+				System.out.println("array  "+array.toString());
+				resp.getWriter().append(array.toString());
+			}else {
+				JSONArray array = new JSONArray();
+				back.put("typeId", 0);
+				back.put("msg", "密码输入错误");
+				back.put("userId",0);
 				array.add(back);
+				System.out.println("msg="+back.toString());
+				resp.getWriter().append(array.toString());
 			}
-			System.out.println("array  "+array.toString());
-			resp.getWriter().append(array.toString());
 		}else {
 			//用户不存在
-			JSONObject back = new JSONObject();
+			JSONArray array = new JSONArray();
+			back.put("typeId", 0);
 			back.put("msg", "该用户不存在");
+			back.put("userId",0);
+			array.add(back);
+			System.out.println("msg="+back.toString());
 			resp.getWriter().append(back.toString());
 		}
 	}
