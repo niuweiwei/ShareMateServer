@@ -16,6 +16,7 @@ public class User {
 	private String userAddress;
 	private String userBirth;
 	private String userIntro;
+	
 	public int getUserId() {
 		return userId;
 	}
