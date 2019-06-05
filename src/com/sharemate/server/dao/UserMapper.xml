@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.UserMapper">
+	<!-- 定义结果映射 -->
+	<resultMap type="com.sharemate.entity.User" id="userMap">
+		<!-- 必须要有的元素，指定主键对应的属性值 -->
+		<id column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_password" property="userPassword"/>
+		<result column="user_photo" property="userPhoto"/>
+		<result column="user_sex" property="userSex"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_address" property="userAddress"/>
+		<result column="user_birth" property="userBirth"/>
+		<result column="user_intro" property="userIntro"/>
+	</resultMap>
+	<!-- 映射select语句 -->
+	<select id="findUserByUserId" resultMap="userMap">
+		select * from user where user_id = #{userId}
+	</select>
+	
+	<update id="updateUser">
+		update user set user_name=#{userName},user_sex=#{userSex},
+		user_birth=#{userBirth},user_address=#{userAddress},
+		user_intro=#{userIntro}
+		where user_id=#{userId}
+	</update>
+	
+	<select id="findUserByUserPhone" resultMap="userMap">
+		select * from user where user_phone = #{userPhone}
+	</select>
+	
+	<insert id="insertUser">
+		insert into user(user_name,user_password,user_photo,user_sex,user_phone,user_birth,user_address,user_intro)
+		values(#{userName},#{userPassword},#{userPhoto},#{userSex},#{userPhone},#{userBirth},#{userAddress},#{userIntro})
+	</insert>
+	
+	<select id="getMaxUserId" resultType="int">
+		select max(user_id) from user
+	</select>
+	
+	<update id="updateUser2">
+		update user set user_sex=#{userSex},user_birth=#{userBirth}
+		where user_id=#{userId}
+	</update>
+	
+	<select id="findUserByPhoneAndPwsd" resultMap="userMap">
+		select * from user where user_phone = #{userPhone} and user_password=#{userPassword}
+	</select>
+</mapper>

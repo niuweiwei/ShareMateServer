@@ -8,5 +8,9 @@
 			  value="STDOUT_LOGGING" 在控制台输出SQL语句
 		-->
 		<setting name="logImpl" value="STDOUT_LOGGING"/>
+		<!-- 懒加载设置为 true -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 积极加载设置为false -->
+        <setting name="aggressiveLazyLoading" value="false"/>
 	</settings>
 </configuration>
