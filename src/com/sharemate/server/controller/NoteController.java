@@ -1,6 +1,7 @@
 package com.sharemate.server.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +15,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +42,13 @@ public class NoteController {
 	public  NoteService noteservice;
 	@Autowired
 	public  FollowService followservice;
+	public int notecurrent;
 	@RequestMapping("text")
 	public void text() {
 		userservice.text();
 		
 	}
-	//ÕÒµ½¹Ø×¢ÓÃ»§µÄËùÓĞ±Ê¼Ç
+	//æ‰¾åˆ°å…³æ³¨ç”¨æˆ·çš„æ‰€æœ‰ç¬”è®°
 	@RequestMapping("allnotelist")
 	public void findAllNote(HttpServletRequest req,HttpServletResponse rep) throws Exception{
 		noteservice.text();
@@ -79,24 +85,24 @@ public class NoteController {
 		
 		
 	}
-	//ÊÕ²Ø£¬ÊÕ²ØÊı+1
+	//æ”¶è—ï¼Œæ”¶è—æ•°+1
 	@RequestMapping("collectcount")
-	//²ÎÊıint noteid,int userid
+	//å‚æ•°int noteid,int userid
 	public void collectAdd(int noteid,int userid) {
-		//¼ÓÈëÊÕ²Ø±í
+		//åŠ å…¥æ”¶è—è¡¨
 		Collect collect=new Collect();
 		collect.setNoteid(noteid);
 		collect.setUserid(userid);
 		noteservice.insertCollect(collect);
 	}
-	//µãÔŞ£¬ÔŞÊı¼ÓÒ»
+	//ç‚¹èµï¼Œèµæ•°åŠ ä¸€
 	@RequestMapping("zancount")
-	//²ÎÊıint noteid,int userid
+	//å‚æ•°int noteid,int userid
 	public void zanAdd(int noteid,int userid) throws ParseException {
 
-		//¼ÓÈëlike±í
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//ÉèÖÃÈÕÆÚ¸ñÊ½
-	    String date=df.format(new Date());// new Date()Îª»ñÈ¡µ±Ç°ÏµÍ³Ê±¼ä
+		//åŠ å…¥likeè¡¨
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//è®¾ç½®æ—¥æœŸæ ¼å¼
+	    String date=df.format(new Date());// new Date()ä¸ºè·å–å½“å‰ç³»ç»Ÿæ—¶é—´
 	    Date datetime=df.parse(date);
 		Like like=new Like();
 		like.setNoteid(noteid);
@@ -104,24 +110,31 @@ public class NoteController {
 		like.setLikeDate(datetime);
 		noteservice.insertLike(like);
 	}
-	//²åÈë±Ê¼ÇĞÅÏ¢
+	//æ’å…¥ç¬”è®°ä¿¡æ¯
 	@RequestMapping("addBaseNote")
 	public void addBaseNote(HttpServletResponse resp,HttpServletRequest req) throws IOException, ParseException {
 		InputStream is=req.getInputStream();
 		InputStreamReader isr=new InputStreamReader(is);
 		BufferedReader br =new BufferedReader(isr);
 		String json=br.readLine();
-		System.out.println("Êı¾İ"+json);
+		System.out.println("æ•°æ®"+json);
 		JSONObject object=JSONObject.fromObject(json);
 		String userid=object.getString("userid");
 		String noteTitle=object.getString("title");
 		String noteDetail=object.getString("detial");
 		String notePosition=object.getString("position");
 	    String typeid=object.getString("typeid");
-	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//ÉèÖÃÈÕÆÚ¸ñÊ½
-	    String date=df.format(new Date());// new Date()Îª»ñÈ¡µ±Ç°ÏµÍ³Ê±¼ä
-	    Date datetime=df.parse(date);
+	    String videoPath=object.getString("videoPath");
 	    Note note=new Note();
+	    if(videoPath.equals(1)) {
+	    	
+	    }else {
+	    	note.setVideoPath(videoPath);
+	    }
+	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//è®¾ç½®æ—¥æœŸæ ¼å¼
+	    String date=df.format(new Date());// new Date()ä¸ºè·å–å½“å‰ç³»ç»Ÿæ—¶é—´
+	    Date datetime=df.parse(date);
+	   
 	    note.setNoteDetail(noteDetail);
 	    note.setNoteTitle(noteTitle);
 	    note.setNotePosition(notePosition);
@@ -129,23 +142,25 @@ public class NoteController {
 	    note.setTypeId(typeid);
 	    note.setNoteDate(datetime);
 	    noteservice.insertBaseNote(note);
+	    notecurrent=note.getNoteId();
+	    
 	    
 		
 	}
-	//²åÈëÆÀÂÛ
+	//æ’å…¥è¯„è®º
 	@RequestMapping("addcomment")
 	public void insertComment(HttpServletResponse resp,HttpServletRequest req) throws IOException, ParseException {
 		InputStream is=req.getInputStream();
 		InputStreamReader isr=new InputStreamReader(is);
 		BufferedReader br =new BufferedReader(isr);
 		String json=br.readLine();
-		System.out.println("Êı¾İ"+json);
+		System.out.println("æ•°æ®"+json);
 		JSONObject object=JSONObject.fromObject(json);
 		String commentdetail=object.getString("pinglunfabu");
 		int commentUserId=object.getInt("userid");
 		int NoteId=object.getInt("noteid");
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//ÉèÖÃÈÕÆÚ¸ñÊ½
-	    String date=df.format(new Date());// new Date()Îª»ñÈ¡µ±Ç°ÏµÍ³Ê±¼ä
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//è®¾ç½®æ—¥æœŸæ ¼å¼
+	    String date=df.format(new Date());// new Date()ä¸ºè·å–å½“å‰ç³»ç»Ÿæ—¶é—´
 	    Date datetime=df.parse(date);
 		comment comment=new comment();
 		comment.setCommentDetail(commentdetail);
@@ -155,9 +170,40 @@ public class NoteController {
 		noteservice.insertComment(comment);
 		
 	}
-	//±£´æÊÓÆµ
-	@RequestMapping("addVideo")
+	//ä¿å­˜å›¾ç‰‡
+	@SuppressWarnings("unchecked")
+	@RequestMapping("addPic")
 	public void addVideo(HttpServletResponse resp,HttpServletRequest req) {
+		try {
+			PrintWriter out = resp.getWriter();
+			 DiskFileItemFactory factory = new DiskFileItemFactory();
+		     ServletFileUpload upload = new ServletFileUpload(factory);
+		     List<FileItem>list = upload.parseRequest(req);
+		     for(FileItem item:list) {
+					if(item.isFormField()) {//ï¿½Ä±ï¿½ï¿½ï¿½
+					}else{
+						String pathName = item.getName(); 
+						String fileName = pathName.substring(pathName.lastIndexOf("\\")+1);
+						System.out.print(fileName);
+						String serverPath = req.getServletContext().getRealPath("/");
+						item.write(new File(serverPath+"\\images\\notePhotos\\"+fileName));
+						String picpath="images/notePhotos/"+fileName;
+						System.out.println(notecurrent);
+						System.out.println(picpath);
+					}
+				}
+		     
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileUploadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

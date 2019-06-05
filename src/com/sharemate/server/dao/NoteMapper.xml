@@ -25,14 +25,14 @@
 </resultMap>
 	<select id="findGuanzhuUser" resultMap="getguanzhuuser" >select *from follow where follow_user_id=#{followuserid}</select>
 	<select id="findGuanzhuNoteById" resultMap="guanzhunote">select * from note where user_id=#{userId} </select>
-	<insert id="insertNote">insert into note(note_title, note_detail, note_image,)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
+	<insert id="insertNote">insert into note(note_title, note_detail, note_image)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
 	<select id="findNoteByNoteId" resultMap="guanzhunote">select * from note where note_id=#{noteid}</select>
 	<update id="addZanCount">update note set note_like_count=#{noteLikeCount} where note_id=#{noteId}</update>
 	<update id="addCollectCount">update note set note_collection_count=#{noteCollectionCount} where note_id=#{noteId}</update>
 	<!--插入赞-->
 	<insert id="insertLike">insert into likes(user_id,note_id,like_date) values(#{userid},#{noteid},#{likeDate})</insert>
 	<insert id="insertCollect">insert into collect(user_id,note_id) values(#{userid},#{noteid})</insert>
-	<insert id="insertBaseNote">insert into note(note_title,note_detail,note_address,type_id,user_id,note_date) values(#{noteTitle},#{noteDetail},#{notePosition},#{typeId},#{userId},#{noteDate})</insert>
+	<insert id="insertBaseNote" keyProperty="noteId" useGeneratedKeys="true">insert into note(note_title,note_detail,note_address,type_id,user_id,note_date,note_video) values(#{noteTitle},#{noteDetail},#{notePosition},#{typeId},#{userId},#{noteDate},#{videoPath})</insert>
 	<!--插入评论-->
 	<insert id="insertComment">insert into comment(comment_detail,comment_date,user_id,note_id) values(#{commentDetail},#{commentDate},#{userId},#{noteId})</insert>
 	<!--插入回答-->

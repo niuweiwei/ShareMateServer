@@ -15,7 +15,14 @@ public class Note {
 	private String userId;
 	private String typeId;
 	private String commentdetial;
+	private String videoPath;
 	
+	public String getVideoPath() {
+		return videoPath;
+	}
+	public void setVideoPath(String videoPath) {
+		this.videoPath = videoPath;
+	}
 	public String getCommentdetial() {
 		return commentdetial;
 	}

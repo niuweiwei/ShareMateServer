@@ -31,4 +31,5 @@ public interface NoteMapper {
 	public void insertComment(comment comment);
 	//²éÑ¯±Ê¼ÇÆÀÂÛ
 	public List<comment> findCommentByNoteId(int noteid);
+
 }
