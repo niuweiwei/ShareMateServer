@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：映射器接口的权限定名 -->
+<mapper namespace="com.sharemate.server.dao.CommentMapper">
+ <!-- 定义评论表结果映射 -->
+ <resultMap type="com.sharemate.entity.Comment" id="noteComment"> 
+  <id column="comment_id" property="commentId"/>
+  <result column="comment_detail" property="commentDetail"/>
+  <result column="comment_date" property="commentDate"/>
+  <result column="note_id" property="noteId"/>
+  <association property="user" 
+     column="{uId=user_id}"
+     select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+  <collection property="replyList" 
+     column="{commentId=comment_id}"
+     select="getReplyListByCommentId"/>
+ </resultMap>
+ 
+ <!-- 定义回复表结果映射 -->
+ <resultMap type="com.sharemate.entity.Reply" id="commentReply"> 
+  <id column="reply_id" property="replyId"/>
+  <result column="comment_id" property="commentId"/>
+  <result column="re_reply_id" property="reReplyId"/>
+  <result column="reply_detail" property="replyDetail"/>
+  <result column="reply_time" property="replyTime"/>
+  <association property="user" 
+     column="{uId=user_id}"
+     select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+ </resultMap>
+ 
+ <!-- 定义回复的回复表结果映射 -->
+ <resultMap type="com.sharemate.entity.Reply" id="reReply"> 
+  <id column="reply_id" property="replyId"/>
+  <result column="comment_id" property="commentId"/>
+  <result column="re_reply_id" property="reReplyId"/>
+  <result column="reply_detail" property="replyDetail"/>
+  <result column="reply_time" property="replyTime"/>
+  <result column="user_id" property="userId"/>
+ </resultMap>
+ 
+ <!-- 根据noteId查询评论列表 -->
+ <select id="getCommentListByNoteId" resultMap="noteComment">
+  select *from comment where note_id = #{noteId}
+ </select>
+ 
+ <!-- 根据评论id查询评论的回复列表 -->
+ <select id="getReplyListByCommentId" resultMap="commentReply">
+  select *from reply where comment_id = #{commentId}
+ </select>
+ <!-- 根据回复id查询回复的回复列表 -->
+ <select id="getReReplyByReplyId" resultMap="reReply">
+  select *from reply where re_reply_id =#{replyId}
+ </select>
+ 
+ <!-- 添加评论 -->
+ <insert id="addComment">
+  insert into comment(comment_detail,comment_date,user_id,note_id)
+  values(#{comment},#{date},#{userId},#{noteId}) 
+ </insert>
+ 
+ <!-- 添加回复 -->
+ <insert id="addReply">
+  insert into reply(reply_detail,reply_time,user_id,comment_id)
+  values(#{reply},#{date},#{userId},#{commentId}) 
+ </insert>
+ 
+ <!-- 添加回复的回复 -->
+ <insert id="addReReply">
+  insert into reply(reply_detail,reply_time,user_id,re_reply_id)
+  values(#{reply},#{date},#{userId},#{reReplyId}) 
+ </insert>
+ 
+ <!-- 根据userId查询赞表中被该用户赞过的评论列表 -->
+ <select id="getLikeCommentByUserId" resultType="java.lang.Integer">
+  select ifnull(comment_id,0) from likes where user_id=#{userId}
+ </select>
+ 
+ <!-- 根据userId查询赞表中被该用户赞过的回复列表 -->
+ <select id="getLikeReplyByUserId" resultType="java.lang.Integer">
+  select ifnull(reply_id,0) from likes where user_id=#{userId}
+ </select>
+ 
+ <!-- 点赞 -->
+ <insert id="insertPick">
+  insert into likes(user_id,comment_id,like_date) 
+  values(#{userId},#{commentId},#{date});
+ </insert>
+ 
+ <!-- 取消赞 -->
+ <delete id="deletePick">
+  delete from likes where user_id =#{userId} and comment_id = #{commentId}
+ </delete>
+ 
+ <!-- 回复点赞 -->
+ <insert id="insertReplyPick">
+  insert into likes(user_id,reply_id,like_date) 
+  values(#{userId},#{replyId},#{date});
+ </insert>
+ 
+ <!-- 回复取消赞 -->
+ <delete id="deleteReplyPick">
+  delete from likes where user_id =#{userId} and reply_id = #{replyId}
+ </delete>
+</mapper>

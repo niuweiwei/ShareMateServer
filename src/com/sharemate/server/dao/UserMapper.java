@@ -1,11 +1,13 @@
 package com.sharemate.server.dao;
 
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-
+import java.util.List;
+import com.sharemate.entity.User;
 import com.sharemate.entity.User;
 
 /**
@@ -59,5 +61,9 @@ public interface UserMapper {
 	 */
 	public User findUserByPhoneAndPwsd(@Param("userPhone")String userPhone,
 			@Param("userPassword")String userPassword);
-	
+	//得到所有用户列表
+	public List<User> findAllUsers();
+
+	//根据userId查询用户
+	public User getUserByUserId(int userId);
 }

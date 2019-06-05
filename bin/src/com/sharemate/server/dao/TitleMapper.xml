@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.TitleMapper">
+	<resultMap type="com.sharemate.entity.Title" id="titleMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="user.userId"/>
+		<result column="type_id" property="type.typeId"/>
+	</resultMap>
+	<insert id="insertTitle">
+		insert into title(user_id,type_id) values(#{userId},#{typeId})
+	</insert>
+	
+	<delete id="deleteTitle">
+		delete from title where user_id=#{userId} and type_id=#{typeId}
+	</delete>
+	
+	<select id="findType" resultMap="titleMap">
+		select * from title where user_id=#{userId}
+	</select>
+</mapper>
