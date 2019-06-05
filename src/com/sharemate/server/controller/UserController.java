@@ -1,6 +1,5 @@
 package com.sharemate.server.controller;
 
-<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +27,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sharemate.entity.Note;
 import com.sharemate.entity.Title;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sharemate.entity.User;
+import com.sharemate.server.service.UserService;
+import com.sharemate.util.JsonTools;
 /**
  * user控制类
  * @author fengjiaxing
@@ -312,28 +324,7 @@ public class UserController {
 			e.printStackTrace();  
         }     
 	  }
-=======
-import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.sharemate.entity.User;
-import com.sharemate.server.service.UserService;
-import com.sharemate.util.JsonTools;
-
-@RequestMapping("/user")
-@Controller
-public class UserController {
-
-	@Autowired
-	private UserService userService;
 	
 	//收藏和取消收藏
 	@RequestMapping("/getUser/{userId}")
@@ -350,5 +341,4 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}	
->>>>>>> refs/remotes/origin/lichunliu
 }
