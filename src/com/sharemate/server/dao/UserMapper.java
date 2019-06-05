@@ -59,4 +59,5 @@ public interface UserMapper {
 	 */
 	public User findUserByPhoneAndPwsd(@Param("userPhone")String userPhone,
 			@Param("userPassword")String userPassword);
+	
 }
