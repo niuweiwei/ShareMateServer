@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Select;
 import com.sharemate.entity.User;
 
 /**
- *  创建映射器接口，在接口里定义抽象方法
  * @author fengjiaxing
  * @version 2019年5月14日 上午11:12:32
  */
