@@ -41,6 +41,7 @@ import com.sharemate.server.service.UserService;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
