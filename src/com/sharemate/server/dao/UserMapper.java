@@ -1,5 +1,7 @@
 package com.sharemate.server.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
@@ -9,7 +11,6 @@ import org.apache.ibatis.annotations.Select;
 import com.sharemate.entity.User;
 
 /**
- *  创建映射器接口，在接口里定义抽象方法
  * @author fengjiaxing
  * @version 2019年5月14日 上午11:12:32
  */
@@ -61,4 +62,12 @@ public interface UserMapper {
 	public User findUserByPhoneAndPwsd(@Param("userPhone")String userPhone,
 			@Param("userPassword")String userPassword);
 	
+	/**
+	 * 春柳
+	 */
+	//得到所有用户列表
+	public List<User> findAllUsers();
+
+	//根据userId查询用户
+	public User getUserByUserId(int userId);
 }

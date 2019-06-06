@@ -22,4 +22,166 @@
 	<select id="getNoteCount" resultType="int">
 		select count(*) from note where user_id = #{userId}
 	</select>
+	
+	<!-- 付娆 -->
+	<resultMap id="guanzhunote" type="com.sharemate.entity.Note">
+		<id property="noteId" column="note_id"/>
+		<result property="noteTitle" column="note_title"/>
+		<result property="noteDetail" column="note_detail"/>
+		<result property="noteImage" column="note_image"/>
+		<result property="noteDate" column="note_date"/>
+	</resultMap>
+	<resultMap id="comment" type="com.sharemate.entity.comment">
+		<id property="commentId" column="comment_id"/>
+		<result property="commentDetail" column="comment_detail"></result>
+		<result property="commentDate" column="comment_date"></result>
+		<result property="userId" column="user_id"></result>
+		<result property="noteId" column="note_id"></result>
+	</resultMap>
+	<select id="findGuanzhuNoteById" resultMap="guanzhunote">select * from note where user_id=#{userId} </select>
+	<insert id="insertNote">insert into note(note_title, note_detail, note_image)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
+	<!-- <select id="findNoteByNoteId" resultMap="guanzhunote">select * from note where note_id=#{noteid}</select> -->
+	<update id="addZanCount">update note set note_like_count=#{noteLikeCount} where note_id=#{noteId}</update>
+	<update id="addCollectCount">update note set note_collection_count=#{noteCollectionCount} where note_id=#{noteId}</update>
+	<!--插入赞-->
+	<insert id="insertLike">insert into likes(user_id,note_id,like_date) values(#{userid},#{noteid},#{likeDate})</insert>
+	<insert id="insertCollect">insert into collect(user_id,note_id) values(#{userid},#{noteid})</insert>
+	<insert id="insertBaseNote" keyProperty="noteId" useGeneratedKeys="true">insert into note(note_title,note_detail,note_address,type_id,user_id,note_date,note_video) values(#{noteTitle},#{noteDetail},#{notePosition},#{typeId},#{userId},#{noteDate},#{videoPath})</insert>
+	<!--插入评论-->
+	<insert id="insertComment">insert into comment(comment_detail,comment_date,user_id,note_id) values(#{commentDetail},#{commentDate},#{userId},#{noteId})</insert>
+	<!--插入回答-->
+	<!-- 获取赞的总数 -->
+	<select id="getZancount" resultType="int">select count(note_id) from likes where note_id=#{noteid}</select>
+	<!-- 获收藏的总数 -->
+	<select id="getCollectcount" resultType="int">select count(note_id) from collect where note_id=#{noteid}</select>
+	<!-- 获取评论的总数 -->
+	<select id="getCommentcount" resultType="int">select count(note_id) from comment where note_id=#{noteid}</select>
+	<!-- 获取评论 -->
+	<select id="findCommentByNoteId" resultMap="comment">select * from comment where note_id=#{noteid}</select>
+	
+	
+	<!-- 春柳 -->
+	<!-- 定义结果映射 --><!--type别名可用user，在主配置文件已经设置  -->
+	<resultMap type="com.sharemate.entity.Note" id="noteMapper"> 
+		 <id column="note_id" property="noteId"/>
+		 <result column="note_video" property="noteVideo"/>
+		 <result column="note_title" property="noteTitle"/>
+		 <result column="note_detail" property="noteDetail"/>
+		 <result column="note_image" property="noteImage"/>
+		 <result column="note_date" property="noteDate"/>
+		 <result column="note_address" property="noteAddress"/>
+		 <result column="type_id" property="typeId"/>
+		 <association property="user" 
+		    column="{uId=user_id}"
+		    select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+		 <association property="likeCount" 
+		    column="{nId=note_id}"
+		    select="com.sharemate.server.dao.NoteMapper.getLikeCountBynoteId"/>
+		 <association property="collectCount"
+		    column="{nId=note_id}"
+		    select="com.sharemate.server.dao.NoteMapper.getCollectCountBynoteId"/>
+		 <association property="commentCount"
+		    column="{nId=note_id}"
+		    select="com.sharemate.server.dao.NoteMapper.getCommentCountBynoteId"/>   
+	</resultMap>
+	
+	<!-- 映射SQL语句  id：接口类中的方法名 resultType:返回值类型-->
+	<select id="getNoteSubList" resultMap="noteMapper">
+	 select * from note
+	</select>
+	
+	<!-- 根据用户定位查询附近的笔记列表-->
+	<select id="getNearbyNoteList" resultMap="noteMapper">
+	 select * from note where note_address=#{address}
+	</select>
+	
+	<!-- 根据typeId查询note -->
+	<select id="getNoteByTypeId" resultMap="noteMapper">
+	 select * from note where type_id=#{typeId}
+	</select>
+	
+	<!-- 根据noteId查询likeCount -->
+	<select id="getLikeCountBynoteId" resultType="java.lang.Integer">
+	 select count(note_id) from likes where note_id=#{nId}
+	</select>
+	
+	<!-- 根据noteId查询collectCount -->
+	<select id="getCollectCountBynoteId" resultType="java.lang.Integer">
+	 select count(note_id) from collect where note_id=#{nId}
+	</select>
+	
+	<!-- 根据noteId查询commentCount -->
+	<select id="getCommentCountBynoteId" resultType="java.lang.Integer">
+	 select count(note_id) from comment where note_id=#{nId}
+	</select>
+	
+	<!-- 根据userId查询赞表中被该用户赞过的note列表 -->
+	<select id="getNoteIdListByUserId" resultType="java.lang.Integer">
+	 select ifnull(note_id,0) from likes where user_id=#{userId}
+	</select>
+	
+	<!-- 根据userId查询赞表中被该用户赞过的note列表 -->
+	<select id="getUserIdFollowByUserId" resultType="java.lang.Integer">
+	 select ifnull(followed_user_id,0) from follow where follow_user_id=#{userId}
+	</select>
+	
+	<!-- 根据userId查询赞表中被该用户赞过的note列表 -->
+	<select id="getNoteIdCollectByUserId" resultType="java.lang.Integer">
+	 select ifnull(note_id,0) from collect where user_id=#{userId}
+	</select>
+	
+	<!-- 点赞 -->
+	<insert id="insertPick">
+	 insert into likes(user_id,note_id,like_date) 
+	 values(#{userId},#{noteId},#{date});
+	</insert>
+	
+	<!-- 取消赞 -->
+	<delete id="deletePick">
+	 delete from likes where user_id =#{userId} and note_id = #{noteId}
+	</delete>
+	
+	<!-- 关注-->
+	<insert id="insertFollow">
+	 insert into follow(follow_user_id,followed_user_id,follow_date) 
+	 values(#{userId},#{followedId},#{date});
+	</insert>
+	
+	<!-- 取消关注 -->
+	<delete id="deleteFollow">
+	 delete from follow where follow_user_id =#{userId} and followed_user_id = #{followedId}
+	</delete>
+	
+	<!-- 收藏 -->
+	<insert id="insertCollect">
+	 insert into collect(user_id,note_id) 
+	 values(#{userId},#{noteId});
+	</insert>
+	
+	<!-- 取消收藏 -->
+	<delete id="deleteCollect">
+	 delete from collect where user_id =#{userId} and note_id = #{noteId}
+	</delete>
+ 
+ <!-- 薇薇 -->
+ <resultMap type="com.sharemate.entity.Note" id="noteMap">
+		<id property="noteId" column="note_id"/>
+		<result property="noteTitle" column="note_title"/>
+		<result property="noteDetail" column="note_detail"/>
+		<result property="noteImage" column="note_image"/>
+		<result property="noteDate" column="note_date"/>
+		<result property="noteType" column="type_id"/>
+		<association property="user" 
+			column="{id = user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"></association>
+	</resultMap>
+	
+	<!-- 根据用户id查询该用户发布过的所有笔记 -->
+	<select id="getNoteListByUserId" resultMap="noteMap">
+		select * from note where user_id = #{userId}
+	</select>
+	<!-- 根据笔记id查询笔记详情 -->
+	<select id="getNoteByNoteId" resultMap="noteMap">
+		select * from note where note_id=#{noteId}
+	</select>
 </mapper>

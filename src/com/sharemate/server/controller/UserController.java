@@ -22,8 +22,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sharemate.entity.Note;
 import com.sharemate.entity.Title;
@@ -38,9 +40,11 @@ import com.sharemate.entity.User;
 import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.TitleService;
 import com.sharemate.server.service.UserService;
+import com.sharemate.util.JsonTools;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -310,4 +314,38 @@ public class UserController {
 			e.printStackTrace();  
         }     
 	  }
+	
+	/*
+	 * 春柳
+	 */
+	//收藏和取消收藏
+	@RequestMapping("/getUser/{userId}")
+	@ResponseBody
+	public void collect(@PathVariable Integer userId,
+		HttpServletRequest request,HttpServletResponse response){
+		response.setContentType("text/html;charset=UTF-8");
+		User user = userService.getUserByUserId(userId);
+		String jsonString="";
+		jsonString = JsonTools.createJsonString("user",user);
+		try {
+			response.getWriter().append(jsonString);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}	
+	
+	/*
+	 * 薇薇
+	 */
+	@RequestMapping("getUser/{userId}")
+	public void getUser(@PathVariable("userId")int userId,HttpServletResponse response) throws IOException {
+		User user = userService.getUserByUserId(userId);
+		JSONObject jsonUser = new JSONObject();
+		jsonUser.put("userId", user.getUserId());
+		jsonUser.put("userName", user.getUserName());
+		jsonUser.put("userPhoto", user.getUserPhoto());
+		
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().write(jsonUser.toString());
+	}
 }

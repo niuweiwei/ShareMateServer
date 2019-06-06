@@ -7,8 +7,13 @@ package com.sharemate.entity;
 
 */
 public class Collect {
+	/*嘉星*/
 	private User user;
 	private Note note;
+	/*付娆*/
+	private int userid;
+	private int noteid;
+	
 	public User getUser() {
 		return user;
 	}
@@ -20,6 +25,18 @@ public class Collect {
 	}
 	public void setNote(Note note) {
 		this.note = note;
+	}
+	public int getUserid() {
+		return userid;
+	}
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+	public int getNoteid() {
+		return noteid;
+	}
+	public void setNoteid(int noteid) {
+		this.noteid = noteid;
 	}
 	
 }

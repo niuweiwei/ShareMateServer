@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sharemate.server.dao.FollowMapper">
-	<resultMap type="com.sharemate.entity.Follow" id="followMap">
+	<resultMap type="com.sharemate.entity.Follow" id="followMapper">
 		<id column="id" property="id"/>
 		<result column="follow_date" property="followDate"/>
 		<result column="follow_user_id" property="followUser.userId"/>
@@ -17,7 +17,7 @@
 		select count(*) from follow where followed_user_id = #{userId}
 	</select>
 	
-	<select id="getFan" resultMap="followMap">
+	<select id="getFan" resultMap="followMapper">
 		select * from follow where followed_user_id = #{userId}
 	</select>
 	
@@ -34,7 +34,56 @@
 		select * from follow where follow_user_id = #{followId} and followed_user_id = #{userId}
 	</select>
 	
-	<select id="getFollowed" resultMap="followMap">
+	<select id="getFollowed" resultMap="followMapper">
 		select * from follow where follow_user_id = #{userId}
 	</select>
+	
+	<!-- 付娆 -->
+	<resultMap id="getguanzhuuser" type="com.sharemate.entity.Follow">
+		<id property="id" column="id"/>
+		<result property="followuserid" column="follow_user_id"></result>
+		<result property="followeduserid" column="followed_user_id"></result>
+	</resultMap>
+	<select id="findGuanzhuUser" resultMap="getguanzhuuser" >
+		select *from follow where follow_user_id=#{followuserid}
+	</select>
+	
+	<!-- 薇薇 -->
+	<resultMap type="com.sharemate.entity.Follow" id="followMap">
+		<id property="id" column="id"/>
+		<result property="followDate" column="follow_date"/>
+		<association property="followUser"
+			column="{id=follow_user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+		<association property="followedUser"
+			column="{id=followed_user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+	</resultMap>
+	
+	<!-- 根据followedId 查询出有关注该用户的用户 -->
+	<select id="getAllFollowsByFollowedId" resultMap="followMap">
+		select * from follow where followed_user_id = #{followedId}
+	</select>
+	
+	<!-- 根据followId 查询该用户关注的所有用户 -->
+	<select id="getAllFollowsByFollowId" resultMap="followMap">
+		select * from follow where follow_user_id = #{followId}
+	</select>
+	
+	<!-- 查询被关注的人(followedId)是否关注了关注的人(followId) -->
+	<select id="isFollow" resultMap="followMap">
+		select * from follow 
+		where follow_user_id=#{followedId} and followed_user_id=#{followId}
+	</select>
+	
+	<!-- followId关注followedId -->
+	<insert id="follow">
+		insert into follow(follow_user_id,followed_user_id,follow_date) 
+		values(#{followId},#{followedId},#{followDate})
+	</insert>
+	<!-- followId取消关注followedId -->
+	<delete id="cancelFollow">
+		delete from follow 
+		where follow_user_id=#{followId} and followed_user_id=#{followedId}
+	</delete>
 </mapper>

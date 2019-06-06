@@ -1,5 +1,7 @@
 package com.sharemate.server.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -77,4 +79,18 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	/*
+	 * 春柳
+	 */
+	@Override
+	public List<User> findAllUsers() {
+		//得到所有用户列表
+		return userMapper.findAllUsers();
+	}
+
+	@Override
+	public User getUserByUserId(int userId) {
+		//根据userId查询用户
+		return userMapper.getUserByUserId(userId);
+	}
 }

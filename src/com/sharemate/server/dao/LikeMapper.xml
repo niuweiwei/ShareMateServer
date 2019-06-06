@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharemate.server.dao.LikesMapper">
+	<select id="getLikesCount" resultType="int">
+		select count(*) from likes where note_id = #{noteId}
+	</select>
+	
+	<!-- 薇薇 -->
+	<resultMap type="com.sharemate.entity.Like" id="likeMap">
+		<id property="likeId" column="like_id"/>
+		<result property="likeDate" column="like_date"/>
+		<association property="user" 
+			column="{id=user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+	</resultMap>
+	<!-- 当根据笔记的id查询like的记录 -->
+	<resultMap type="com.sharemate.entity.Like" id="likeNoteMap" extends="likeMap">
+		<association property="note" 
+			column="{noteId=note_id}"
+			select="com.sharemate.server.dao.NoteMapper.getNoteByNoteId"/>
+	</resultMap>
+	<!-- 当根据评论的id查询like记录时 -->
+	<resultMap type="com.sharemate.entity.Like" id="likeCommentMap" extends="likeMap">
+		<association property="comment" 
+			column="{commentId=comment_id}"
+			select="com.sharemate.server.dao.CommentMapper.getCommentByCommentId"/>
+	</resultMap>
+	<!--  当根据回复的id查询like记录-->
+	<resultMap type="com.sharemate.entity.Like" id="likeReplyMap" extends="likeMap">
+		<association property="reply"
+			column="{replyId=reply_id}"
+			select="com.sharemate.server.dao.ReplyMapper.getReplyByReplyId"></association>
+	</resultMap>
+	
+	<!-- 根据笔记的id 查询赞该笔记的信息 -->
+	<select id="getLikeListByNoteId" resultMap="likeNoteMap">
+		select * from likes where note_id = #{noteId}
+	</select>
+	<!-- 根据评论的id查询赞过该评论的信息 -->
+	<select id="getLikeListByCommentId" resultMap="likeCommentMap">
+		select * from likes where comment_id = #{commentId}
+	</select>
+	<!-- 根据回复的id查询赞过该回复的信息 -->
+	<select id="getLikeListByReplyId" resultMap="likeReplyMap">
+		select * from likes where reply_id = #{replyId}
+	</select>
+	<!-- 根据用户id以及评论id查询该用户是否点赞过该条评论 -->
+	<select id="isLikeComment" resultMap="likeMap">
+		select * from likes where user_id = #{userId} and comment_id = #{commentId}
+	</select>
+	<!-- 根据用户id以及评论id查询该用户是否点赞过该条评论 -->
+	<select id="isLikeReply" resultMap="likeMap">
+		select * from likes where user_id = #{userId} and reply_id = #{replyId}
+	</select>
+	<!-- 点赞评论 向like表中插入点赞的记录 -->
+	<insert id="likeComment">
+		insert into likes(user_id,comment_id,like_date) values(#{userId},#{commentId},#{likeDate})
+	</insert>
+	<!-- 点赞回复 向like表中插入点赞的记录 -->
+	<insert id="likeReply">
+		insert into likes(user_id,reply_id,like_date) values(#{userId},#{replyId},#{likeDate})
+	</insert>
+	<!-- 取消点赞评论 -->
+	<delete id="cancelLikeComment">
+		delete from likes 
+		where user_id = #{userId} and comment_id = #{commentId} 
+	</delete>
+	<!-- 取消点赞回复 -->
+	<delete id="cancelLikeReply">
+		delete from likes
+		where user_id = #{userId} and reply_id = #{replyId}
+	</delete>
+</mapper>
