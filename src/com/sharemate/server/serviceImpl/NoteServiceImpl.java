@@ -209,9 +209,9 @@ public class NoteServiceImpl implements NoteService{
 	}
 
 	@Override
-	public int insertCollect(int userId, int noteId) {
+	public int insertCollect1(int userId, int noteId) {
 		// 收藏
-		return noteMapper.insertCollect(userId, noteId);
+		return noteMapper.insertCollect1(userId, noteId);
 	}
 
 	@Override

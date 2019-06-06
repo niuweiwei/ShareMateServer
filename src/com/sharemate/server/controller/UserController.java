@@ -5,15 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sharemate.entity.Note;
 import com.sharemate.entity.Title;
 
 /**
@@ -37,12 +32,10 @@ import com.sharemate.entity.Title;
  */
 
 import com.sharemate.entity.User;
-import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.TitleService;
 import com.sharemate.server.service.UserService;
 import com.sharemate.util.JsonTools;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -281,6 +274,7 @@ public class UserController {
 	 * @param resp
 	 * @throws IOException
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("updatePhoto")
 	public void updatePhoto(int userId,HttpServletRequest req,HttpServletResponse resp) throws IOException {
 		System.out.println("updatePhoto");
@@ -318,8 +312,8 @@ public class UserController {
 	/*
 	 * 春柳
 	 */
-	//收藏和取消收藏
-	@RequestMapping("/getUser/{userId}")
+	//getUser
+	@RequestMapping("/getUser1/{userId}")
 	@ResponseBody
 	public void collect(@PathVariable Integer userId,
 		HttpServletRequest request,HttpServletResponse response){

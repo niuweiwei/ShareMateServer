@@ -1,6 +1,5 @@
 package com.sharemate.entity;
 
-import java.util.Date;
 
 public class Like {
 	private int userid;

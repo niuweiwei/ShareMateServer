@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.sharemate.entity.Comment;
 import com.sharemate.entity.Reply;
-import com.sharemate.entity.User;
 
 public interface CommentMapper {
 

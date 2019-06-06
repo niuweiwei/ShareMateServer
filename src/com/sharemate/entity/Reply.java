@@ -1,6 +1,5 @@
 package com.sharemate.entity;
 
-import java.util.List;
 
 public class Reply {
 	

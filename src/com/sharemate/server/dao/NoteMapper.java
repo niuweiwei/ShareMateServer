@@ -3,9 +3,6 @@ package com.sharemate.server.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import com.sharemate.entity.Collect;
 import com.sharemate.entity.Comment;
@@ -79,7 +76,7 @@ public interface NoteMapper {
 	public List<Note> getNoteByTypeId(int typeId);
 	
 	//根据noteId查询笔记
-//	public Note getNoteByNoteId(int noteId);
+	public Note getNoteByNoteId(int noteId);
 	
 	//根据登录用户所在位置查询附近的人的笔记列表
 	public Note getNoteListByUserLocation(String useraddress);
@@ -116,7 +113,7 @@ public interface NoteMapper {
 	public int deleteFollow(@Param("userId")int userId,@Param("followedId")int followedId);
 	
 	//收藏
-	public int insertCollect(@Param("userId")int userId,@Param("noteId")int noteId);
+	public int insertCollect1(@Param("userId")int userId,@Param("noteId")int noteId);
 	
 	//取消收藏
 	public int deleteCollect(@Param("userId")int userId,@Param("noteId")int noteId);
@@ -136,5 +133,5 @@ public interface NoteMapper {
 	 * @param noteId 指定的笔记id
 	 * @return 返回笔记列表
 	 * */
-	public Note getNoteByNoteId(int noteId);
+//	public Note getNoteByNoteId(int noteId);
 }

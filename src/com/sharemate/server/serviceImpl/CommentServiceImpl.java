@@ -2,9 +2,7 @@ package com.sharemate.server.serviceImpl;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Service;
 
 import com.sharemate.entity.Comment;

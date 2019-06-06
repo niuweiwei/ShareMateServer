@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sharemate.server.dao.NoteMapper">
-	<resultMap type="com.sharemate.entity.Note" id="noteMap">
+	<resultMap type="com.sharemate.entity.Note" id="noteMap2">
 		<!-- 必须要有的元素，指定主键对应的属性值 -->
 		<id column="note_id" property="noteId"/>
 		<result column="note_title" property="noteTitle"/>
@@ -11,11 +11,11 @@
 		<result column="note_image" property="noteImage"/>
 		<result column="note_date" property="noteDate"/>
 	</resultMap>
-	<select id="findNoteByUserId" resultMap="noteMap">
+	<select id="findNoteByUserId" resultMap="noteMap2">
 		select * from note where user_id = #{userId}
 	</select>
 	
-	<select id="findNoteByNoteId" resultMap="noteMap">
+	<select id="findNoteByNoteId" resultMap="noteMap2">
 		select * from note where note_id = #{noteId}
 	</select>
 	
@@ -31,7 +31,7 @@
 		<result property="noteImage" column="note_image"/>
 		<result property="noteDate" column="note_date"/>
 	</resultMap>
-	<resultMap id="comment" type="com.sharemate.entity.comment">
+	<resultMap id="comment" type="com.sharemate.entity.Comment">
 		<id property="commentId" column="comment_id"/>
 		<result property="commentDetail" column="comment_detail"></result>
 		<result property="commentDate" column="comment_date"></result>
@@ -153,7 +153,7 @@
 	</delete>
 	
 	<!-- 收藏 -->
-	<insert id="insertCollect">
+	<insert id="insertCollect1">
 	 insert into collect(user_id,note_id) 
 	 values(#{userId},#{noteId});
 	</insert>

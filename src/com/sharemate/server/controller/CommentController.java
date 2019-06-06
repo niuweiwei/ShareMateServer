@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sharemate.entity.Comment;
 import com.sharemate.entity.Reply;
 import com.sharemate.server.service.CommentService;
-import com.sharemate.server.service.UserService;
 import com.sharemate.util.JsonTools;
 
 @RequestMapping("/comment")

@@ -41,7 +41,6 @@ import com.sharemate.server.service.NoteService;
 import com.sharemate.server.service.UserService;
 import com.sharemate.util.JsonTools;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -207,7 +206,6 @@ public class NoteController {
 	@RequestMapping("addPic")
 	public void addVideo(HttpServletResponse resp,HttpServletRequest req) {
 		try {
-			PrintWriter out = resp.getWriter();
 			 DiskFileItemFactory factory = new DiskFileItemFactory();
 		     ServletFileUpload upload = new ServletFileUpload(factory);
 		     List<FileItem>list = upload.parseRequest(req);
@@ -406,7 +404,7 @@ public class NoteController {
 			System.out.println("lcollect"+collect);
 			int userId = Integer.parseInt(uId);
 		    if(collect.equals("false")) {
-		    	noteService.insertCollect(userId, noteId);
+		    	noteService.insertCollect1(userId, noteId);
 		    }else {
 		    	System.out.println("iscollect:"+collect);
 		    	noteService.deleteCollect(userId, noteId);

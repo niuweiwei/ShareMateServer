@@ -92,7 +92,7 @@ public interface NoteService {
 	public void deletePick(int userId,int noteId);
 	
 	//收藏
-	public int insertCollect(int userId,int noteId);
+	public int insertCollect1(int userId,int noteId);
 	
 	//取消收藏
 	public int deleteCollect(int userId,int noteId);

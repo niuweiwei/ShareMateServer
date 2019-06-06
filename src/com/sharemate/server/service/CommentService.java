@@ -4,9 +4,7 @@ import java.util.List;
 
 
 import com.sharemate.entity.Comment;
-import com.sharemate.entity.Follow;
 import com.sharemate.entity.Reply;
-import com.sharemate.entity.User;
 
 public interface CommentService {
 

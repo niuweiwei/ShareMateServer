@@ -12,11 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.User;
-import com.sharemate.server.dao.CommentMapper;
 import com.sharemate.server.dao.FollowMapper;
-import com.sharemate.server.dao.LikeMapper;
-import com.sharemate.server.dao.NoteMapper;
-import com.sharemate.server.dao.ReplyMapper;
 import com.sharemate.server.dao.UserMapper;
 import com.sharemate.server.service.FollowService;
 

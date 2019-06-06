@@ -2,8 +2,6 @@ package com.sharemate.server.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.User;
 
