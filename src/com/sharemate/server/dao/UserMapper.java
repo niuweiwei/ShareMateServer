@@ -1,5 +1,7 @@
 package com.sharemate.server.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.sharemate.entity.User;
@@ -13,4 +15,5 @@ public interface UserMapper {
 	 * @return User 返回User对象 对象封装了用户的具体信息
 	 * */
 	public User getUserByUserId(int id);
+	
 }
