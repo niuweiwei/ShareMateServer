@@ -10,6 +10,7 @@
 		<result column="note_detail" property="noteDetail"/>
 		<result column="note_image" property="noteImage"/>
 		<result column="note_date" property="noteDate"/>
+		<result property="noteVideo" column="note_video"/>
 	</resultMap>
 	<select id="findNoteByUserId" resultMap="noteMap2">
 		select * from note where user_id = #{userId}
@@ -23,12 +24,16 @@
 		select count(*) from note where user_id = #{userId}
 	</select>
 	
+	<select id="getUserIdByNoteId" resultType="int">
+		select user_id from note where note_id = #{noteId}
+	</select>
 	<!-- 付娆 -->
 	<resultMap id="guanzhunote" type="com.sharemate.entity.Note">
 		<id property="noteId" column="note_id"/>
 		<result property="noteTitle" column="note_title"/>
 		<result property="noteDetail" column="note_detail"/>
 		<result property="noteImage" column="note_image"/>
+		<result property="noteVideo" column="note_video"/>
 		<result property="noteDate" column="note_date"/>
 	</resultMap>
 	<resultMap id="comment" type="com.sharemate.entity.Comment">
@@ -38,6 +43,22 @@
 		<result property="userId" column="user_id"></result>
 		<result property="noteId" column="note_id"></result>
 	</resultMap>
+	<resultMap type="com.sharemate.entity.User" id="user">
+		<id property="userId" column="user_id"/>
+		<result property="userPhoto" column="user_photo"></result>
+		<result property="userName" column="user_name"></result>
+	</resultMap>
+	<resultMap type="com.sharemate.entity.Like" id="likelist">
+	<id property="likeId" column="like_id"/>
+	<result property="userid" column="user_id"></result>
+	<result property="noteid" column="note_id"></result>
+	</resultMap>
+	
+	<!-- likeList -->
+	<select id="findPickList" resultMap="likelist"> select *from likes where user_id=#{userId}</select>
+	<!-- CollectList -->
+	<select id="findCollectList" resultType="com.sharemate.entity.Collect">select * from collect where user_id=#{userId}</select>
+	
 	<select id="findGuanzhuNoteById" resultMap="guanzhunote">select * from note where user_id=#{userId} </select>
 	<insert id="insertNote">insert into note(note_title, note_detail, note_image)values(#{noteTitle}, #{noteDetail}, #{noteImage}) </insert>
 	<!-- <select id="findNoteByNoteId" resultMap="guanzhunote">select * from note where note_id=#{noteid}</select> -->
@@ -45,8 +66,8 @@
 	<update id="addCollectCount">update note set note_collection_count=#{noteCollectionCount} where note_id=#{noteId}</update>
 	<!--插入赞-->
 	<insert id="insertLike">insert into likes(user_id,note_id,like_date) values(#{userid},#{noteid},#{likeDate})</insert>
-	<insert id="insertCollect">insert into collect(user_id,note_id) values(#{userid},#{noteid})</insert>
-	<insert id="insertBaseNote" keyProperty="noteId" useGeneratedKeys="true">insert into note(note_title,note_detail,note_address,type_id,user_id,note_date,note_video) values(#{noteTitle},#{noteDetail},#{notePosition},#{typeId},#{userId},#{noteDate},#{videoPath})</insert>
+	<insert id="insertCollect">insert into collect(user_id,note_id) values(#{user_id},#{note_id})</insert>
+	<insert id="insertBaseNote" keyProperty="noteId" useGeneratedKeys="true">insert into note(note_title,note_detail,note_address,type_id,user_id,note_date,note_video,note_image) values(#{noteTitle},#{noteDetail},#{notePosition},#{typeId},#{userId},#{noteDate},#{videoPath},#{noteImage})</insert>
 	<!--插入评论-->
 	<insert id="insertComment">insert into comment(comment_detail,comment_date,user_id,note_id) values(#{commentDetail},#{commentDate},#{userId},#{noteId})</insert>
 	<!--插入回答-->
@@ -58,8 +79,11 @@
 	<select id="getCommentcount" resultType="int">select count(note_id) from comment where note_id=#{noteid}</select>
 	<!-- 获取评论 -->
 	<select id="findCommentByNoteId" resultMap="comment">select * from comment where note_id=#{noteid}</select>
-	
-	
+	<!-- 插入图片路径 -->
+	<update id="addPicAddress">update note set note_image=#{noteImage}  where note_id=#{noteId}</update>
+	<!-- 查找user -->
+	<select id="getUserPhoto" resultMap="user">select * from user where user_id=#{userId} </select>
+	<select id="findMaxNoteId" resultType="int">select max(note_id) from note</select>
 	<!-- 春柳 -->
 	<!-- 定义结果映射 --><!--type别名可用user，在主配置文件已经设置  -->
 	<resultMap type="com.sharemate.entity.Note" id="noteMapper"> 
@@ -170,10 +194,11 @@
 		<result property="noteDetail" column="note_detail"/>
 		<result property="noteImage" column="note_image"/>
 		<result property="noteDate" column="note_date"/>
+		<result property="noteVideo" column="note_video"/>
 		<result property="noteType" column="type_id"/>
 		<association property="user" 
-			column="{id = user_id}"
-			select="com.sharemate.server.dao.UserMapper.getUserByUserId"></association>
+			column="{userId = user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserById"></association>
 	</resultMap>
 	
 	<!-- 根据用户id查询该用户发布过的所有笔记 -->

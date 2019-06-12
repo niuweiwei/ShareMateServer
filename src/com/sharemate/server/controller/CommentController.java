@@ -36,7 +36,7 @@ public class CommentController {
 		response.setContentType("text/html;charset=UTF-8");
 		String userId = request.getParameter("userId");
 		int userid = Integer.parseInt(userId);
-		List<Comment> commentList = commentService.getCommentListByNoteId(noteId);
+		List<Comment> commentList = commentService.getCommentListByNote(noteId);
 	    List<Integer> commentLikeList = commentService.getLikeCommentByUserId(userid);
 	    List<Integer> replyLikeList = commentService.getLikeReplyByUserId(userid);
 		for(Comment c:commentList) {

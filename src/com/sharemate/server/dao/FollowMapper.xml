@@ -53,11 +53,11 @@
 		<id property="id" column="id"/>
 		<result property="followDate" column="follow_date"/>
 		<association property="followUser"
-			column="{id=follow_user_id}"
-			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+			column="{userId=follow_user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserById"/>
 		<association property="followedUser"
-			column="{id=followed_user_id}"
-			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+			column="{userId=followed_user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserById"/>
 	</resultMap>
 	
 	<!-- 根据followedId 查询出有关注该用户的用户 -->

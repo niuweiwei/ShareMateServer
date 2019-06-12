@@ -11,8 +11,8 @@ public class Collect {
 	private User user;
 	private Note note;
 	/*付娆*/
-	private int userid;
-	private int noteid;
+	private int user_id;
+	private int note_id;
 	
 	public User getUser() {
 		return user;
@@ -26,17 +26,18 @@ public class Collect {
 	public void setNote(Note note) {
 		this.note = note;
 	}
-	public int getUserid() {
-		return userid;
+	public int getNote_id() {
+		return note_id;
 	}
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setNote_id(int note_id) {
+		this.note_id = note_id;
 	}
-	public int getNoteid() {
-		return noteid;
+	public int getUser_id() {
+		return user_id;
 	}
-	public void setNoteid(int noteid) {
-		this.noteid = noteid;
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
+	
 	
 }

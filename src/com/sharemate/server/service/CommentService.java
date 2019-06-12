@@ -9,7 +9,7 @@ import com.sharemate.entity.Reply;
 public interface CommentService {
 
 	//根据noteId查询评论列表
-		public List<Comment> getCommentListByNoteId(int noteId);
+		public List<Comment> getCommentListByNote(int noteId);
 		
 		//根据评论id查询评论的回复列表 
 		public List<Reply> getReplyListByCommentId(int commentId);

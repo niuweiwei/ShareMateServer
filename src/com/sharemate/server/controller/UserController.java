@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sharemate.entity.Follow;
 import com.sharemate.entity.Title;
 
 /**
@@ -32,10 +33,12 @@ import com.sharemate.entity.Title;
  */
 
 import com.sharemate.entity.User;
+import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.TitleService;
 import com.sharemate.server.service.UserService;
 import com.sharemate.util.JsonTools;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -46,6 +49,10 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private TitleService titleService;
+	@Autowired
+	private FollowService followService;
+	
+	
 	/**
 	 * 根据手机号判断用户是否登录过
 	 * @param userPhone
@@ -298,10 +305,15 @@ public class UserController {
 					System.out.print(fileName);
 					//serverPath是项目运行后的路径,在使用ServletContext.getRealPath() 时，传入的参数是从 当前servlet 部署在tomcat中的文件夹算起的相对路径，要以"/" 开头，否则会找不到路径，导致NullPointerException
 					String serverPath = req.getSession().getServletContext().getRealPath("/");
-					fileName = userId+".jpg";
-					item.write(new File(serverPath+"\\images\\userPhotos\\",fileName));
+					fileName = "images/userPhotos/"+ userId+"new.jpg";
+					item.write(new File(serverPath+"\\images\\userPhotos\\"+fileName));
 					userPhoto = fileName;
-					System.out.println(userPhoto);
+					System.out.println("userPhoto"+userPhoto);
+					User u = new User();
+					u.setUserId(userId);
+					u.setUserPhoto(userPhoto);
+					int i = userService.updateUserPhoto(u);
+					System.out.println("插入"+i+"行");
 				}
 			}
 		}catch(Exception e){
@@ -342,4 +354,35 @@ public class UserController {
 		response.setCharacterEncoding("utf-8");
 		response.getWriter().write(jsonUser.toString());
 	}
+	
+	//得到与当前用户相关的所有用户 即其关注的所有用户、其所有粉丝 包括自己
+		@RequestMapping("getUserList/{userId}")
+		public void getUserList(@PathVariable("userId")int userId,HttpServletResponse response) throws IOException {
+			List<User> userList = new ArrayList<>();
+			//得到userId关注的用户
+			List<User> contactList = followService.getContactList(userId);
+			userList.addAll(contactList);
+			//得到userId的所有粉丝
+			List<Follow> followList = followService.getFollowList(userId);
+			for(Follow follow : followList) {
+				User user = follow.getFollowUser();
+				userList.add(user);
+			}
+			//将当前用户
+			User user = userService.getUserById(userId);
+			userList.add(user);
+			
+			JSONArray jsonUserList = new JSONArray();
+			for(User item : userList) {
+				JSONObject jsonUser = new JSONObject();
+				jsonUser.put("userId", item.getUserId());
+				jsonUser.put("userName", item.getUserName());
+				jsonUser.put("userPhoto", item.getUserPhoto());
+				jsonUserList.add(jsonUser);
+			}
+				
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().write(jsonUserList.toString());
+			
+		}
 }

@@ -18,6 +18,8 @@ public interface UserService {
 	
 	public int updateUser(User user);
 	
+	public int updateUserPhoto(User user);
+	
 	public int insertUser(User user);
 	
 	public int getMaxUserId();
@@ -35,4 +37,7 @@ public interface UserService {
 	public List<User> findAllUsers();
 	//根据userId查询用户
 	public User getUserByUserId(int userId);
+	
+	/*vv*/
+	public User getUserById(int userId);
 }

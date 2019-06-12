@@ -12,8 +12,8 @@
 		<id property="likeId" column="like_id"/>
 		<result property="likeDate" column="like_date"/>
 		<association property="user" 
-			column="{id=user_id}"
-			select="com.sharemate.server.dao.UserMapper.getUserByUserId"/>
+			column="{userId=user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserById"/>
 	</resultMap>
 	<!-- 当根据笔记的id查询like的记录 -->
 	<resultMap type="com.sharemate.entity.Like" id="likeNoteMap" extends="likeMap">

@@ -35,6 +35,7 @@ import com.sharemate.entity.Collect;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.entity.User;
 import com.sharemate.entity.Comment;
 import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.NoteService;
@@ -57,9 +58,9 @@ public class NoteController {
 	@Autowired
 	private NoteService noteService;
 	@Autowired
-	public  UserService userservice;
+	public  UserService userService;
 	@Autowired
-	public  FollowService followservice;
+	public  FollowService followService;
 	
 	public int notecurrent;
 	/**
@@ -83,23 +84,43 @@ public class NoteController {
 	 */
 	//找到关注用户的所有笔记
 	@RequestMapping("allnotelist")
-	public void findAllNote(HttpServletRequest req,HttpServletResponse rep) throws Exception{
+	public void findAllNote(HttpServletRequest req,HttpServletResponse rep,int userid) throws Exception{
 		noteService.text();
 		List<Note> guanzhunotelist=new ArrayList<Note>();
-		List<Follow> followlist=noteService.findGuanzhuUser(1);
+		List<Note> currentnotelist=new ArrayList<Note>();
+		List<Like> likeList=noteService.findPickList(userid);
+		List<Collect> collectList=noteService.findCollectList(userid);
+		List<Follow> followlist=followService.findGuanzhuUser(userid);
 		for(Follow follow:followlist) {
-			int userid=follow.getFolloweduserid();
-			System.out.println(String.valueOf(userid));
-			List<Note> notelist=noteService.findGuanzhuNote(userid);
+			int userid1=follow.getFolloweduserid();
+			System.out.println(String.valueOf(userid1));
+			List<Note> notelist=noteService.findGuanzhuNote(userid1);
+			String userphoto=noteService.getUserPhoto(userid1).getUserPhoto();
+			String username=noteService.getUserPhoto(userid1).getUserName();
+			for(Note note1:notelist) {
+				note1.setUserImage(userphoto);
+				note1.setUserName(username);
+			}
+
 			guanzhunotelist.addAll(notelist);
 		}
 		for(Note note:guanzhunotelist) {
 			int noteid=note.getNoteId();
+			String commentdetial="";
 			int likecount=noteService.getZancount(noteid);
 			int collectcount=noteService.getCollectcount(noteid);
 			int commentcount=noteService.getCommentcount(noteid);
-			Comment comment=noteService.findCommentByNoteId(noteid).get(0);
-			String commentdetial=comment.getCommentDetail();
+			String commentUserImage="";
+			Comment comment=new Comment();
+			if(noteService.findCommentByNoteId(noteid).size()!=0) {
+				comment=noteService.findCommentByNoteId(noteid).get(0);
+				commentdetial=comment.getCommentDetail();
+				int commentUserid=comment.getUserId();
+				User user=userService.getUserById(commentUserid);
+				commentUserImage=user.getUserPhoto();
+				
+			}
+			
 			System.out.println(commentdetial);
 			System.out.println(String.valueOf(likecount)+"like");
 			System.out.println(String.valueOf(collectcount)+"colect");
@@ -107,8 +128,25 @@ public class NoteController {
 			note.setNoteCollectionCount(collectcount);
 			note.setNoteCommentCount(commentcount);
 			note.setCommentdetial(commentdetial);
+			note.setCommentUserImage(commentUserImage);
+			for(Like like:likeList) {
+				if(like.getNoteid()==noteid) {
+					note.setZanTag(1);
+				}
+				else {
+					note.setZanTag(0);
+				}
+			}
+			for(Collect collect:collectList) {
+				if(collect.getNote_id()==noteid) {
+					note.setCollectTag(1);
+				}else {
+					note.setCollectTag(0);
+				}
+			}
+			
 		}
-		
+
 		System.out.println(String.valueOf(guanzhunotelist.size()));	
 		String jsonString="";
 		jsonString = JsonTools.createJsonString("notelist",guanzhunotelist);
@@ -124,8 +162,8 @@ public class NoteController {
 	public void collectAdd(int noteid,int userid) {
 		//加入收藏表
 		Collect collect=new Collect();
-		collect.setNoteid(noteid);
-		collect.setUserid(userid);
+		collect.setNote_id(noteid);
+		collect.setUser_id(userid);
 		noteService.insertCollect(collect);
 	}
 	//点赞，赞数加一
@@ -163,6 +201,7 @@ public class NoteController {
 	    	
 	    }else {
 	    	note.setVideoPath(videoPath);
+	    	note.setNoteImage("null");
 	    }
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 	    String date=df.format(new Date());// new Date()为获取当前系统时间
@@ -220,6 +259,11 @@ public class NoteController {
 						String picpath="images/notePhotos/"+fileName;
 						System.out.println(notecurrent);
 						System.out.println(picpath);
+						int noteMaxid=noteService.findMaxNoteId();
+						Note note=new Note();
+						note.setNoteImage(picpath);
+						note.setNoteId(noteMaxid);
+						noteService.addPicAddress(note);
 					}
 				}
 		} catch (IOException e) {
@@ -233,6 +277,8 @@ public class NoteController {
 			e.printStackTrace();
 		}
 	}
+	
+		
 	
 	/*
 	 * 春柳

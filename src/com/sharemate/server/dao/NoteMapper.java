@@ -9,6 +9,7 @@ import com.sharemate.entity.Comment;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.entity.User;
 
 /**
 
@@ -37,6 +38,7 @@ public interface NoteMapper {
 	 */
 	public int getNoteCount(int userId);
 	
+	public int getUserIdByNoteId(int noteId);
 	/**
 	 * 付娆
 	 */
@@ -62,7 +64,19 @@ public interface NoteMapper {
 	public void insertComment(Comment comment);
 	//查询笔记评论
 	public List<Comment> findCommentByNoteId(int noteid);
+	//插入图片路径
+	public void addPicAddress(Note note);
+	//查userpic
+	public User getUserPhoto(int userid);
+	//获得点赞list
+	public List<Like> findPickList(int userId);
+	//获得收藏list
+	public List<Collect> findCollectList(int userId);
+	//查询最大的id
+	public int findMaxNoteId();
 	
+
+
 	/*
 	 * 春柳
 	 */
@@ -127,6 +141,7 @@ public interface NoteMapper {
 	 * @return 返回笔记列表
 	 * */
 	public List<Note> getNoteListByUserId(int userId);
+	
 	
 	/**
 	 * 根据笔记的id查询笔记详情

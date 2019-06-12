@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.server.service.FollowService;
 import com.sharemate.server.service.LikeService;
 import com.sharemate.server.service.NoteService;
 
@@ -34,6 +35,8 @@ public class LikeController {
 	private LikeService likeService;
 	@Autowired
 	private NoteService noteService;
+	@Autowired
+	private FollowService followService;
 	
 	@RequestMapping("/getLikesCount")
 	public void getLikesCount(int userId,HttpServletResponse resp) throws IOException {
@@ -59,14 +62,32 @@ public class LikeController {
 		response.setCharacterEncoding("utf-8");
 		JSONArray jsonLikeList = new JSONArray();
 		for(Like like : likeList) {
-			JSONObject jsonLike = new JSONObject();
-			jsonLike.put("likeId", like.getLikeId());
-			jsonLike.put("note", like.getNote());
-			jsonLike.put("comment", like.getComment());
-			jsonLike.put("reply", like.getReply());
-			jsonLike.put("user", like.getUser());
-			jsonLike.put("likeDate", like.getLikeDate());
-			jsonLikeList.add(jsonLike);
+			int fanCount = followService.getFanCountByUserId(like.getUser().getUserId());
+			int followCount = followService.getFollowCountByUserId(like.getUser().getUserId());
+			List<Note> noteList = noteService.findNoteByUserId(like.getUser().getUserId());
+			int likesCount = 0;
+			for(int i=0;i<noteList.size();i++) {
+				int noteId = noteList.get(i).getNoteId();
+				int likeCount = likeService.getLikesCount(noteId);
+				likesCount += likeCount;
+			}
+			System.out.println("fanCount:"+fanCount);
+			System.out.println("followCount:"+followCount);
+			System.out.println("likesCount:"+likesCount);
+			if(like.getUser().getUserId() != userId) {
+				JSONObject jsonLike = new JSONObject();
+				jsonLike.put("likeId", like.getLikeId());
+				jsonLike.put("note", like.getNote());
+				jsonLike.put("comment", like.getComment());
+				jsonLike.put("reply", like.getReply());
+				jsonLike.put("user", like.getUser());
+				jsonLike.put("likeDate", like.getLikeDate());
+				jsonLike.put("fanCount", fanCount);
+				jsonLike.put("followCount", followCount);
+				jsonLike.put("likeCount", likesCount);
+				jsonLikeList.add(jsonLike);
+			}
+			
 		}
 		System.out.println(jsonLikeList.toString());
 		response.getWriter().write(jsonLikeList.toString());

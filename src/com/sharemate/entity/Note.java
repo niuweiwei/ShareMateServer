@@ -16,6 +16,7 @@ public class Note {
 	private String noteDate;
 	private User user;
 	private Type type;
+	
 	/*付娆*/
 //	private Date noteDate;
 	private String notePosition;
@@ -26,6 +27,11 @@ public class Note {
 	private int typeId;
 	private String commentdetial;
 	private String videoPath;
+	private String userImage;
+	private String userName;
+	private int zanTag;
+	private int collectTag;
+	private String commentUserImage;
 	/*春柳*/
 	private String noteVideo;
 	private String noteAddress;
@@ -187,6 +193,36 @@ public class Note {
 	}
 	public void setNoteType(int noteType) {
 		this.noteType = noteType;
+	}
+	public String getUserImage() {
+		return userImage;
+	}
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public int getCollectTag() {
+		return collectTag;
+	}
+	public void setCollectTag(int collectTag) {
+		this.collectTag = collectTag;
+	}
+	public int getZanTag() {
+		return zanTag;
+	}
+	public void setZanTag(int zanTag) {
+		this.zanTag = zanTag;
+	}
+	public String getCommentUserImage() {
+		return commentUserImage;
+	}
+	public void setCommentUserImage(String commentUserImage) {
+		this.commentUserImage = commentUserImage;
 	}
 	
 }

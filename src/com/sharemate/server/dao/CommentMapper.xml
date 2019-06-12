@@ -43,9 +43,9 @@
 	</resultMap>
 	
 	<!-- 根据noteId查询评论列表 -->
-	<!-- <select id="getCommentListByNoteId" resultMap="noteComment">
+	<select id="getCommentListByNote" resultMap="noteComment">
 	 select *from comment where note_id = #{noteId}
-	</select> -->
+	</select>
 	
 	<!-- 根据评论id查询评论的回复列表 -->
 	<select id="getReplyListByCommentId" resultMap="commentReply">
@@ -112,8 +112,8 @@
 		<result property="commentDetail" column="comment_detail"/>
 		<result property="commentDate" column="comment_date"/>
 		<association property="user"
-			column="{id=user_id}"
-			select="com.sharemate.server.dao.UserMapper.getUserByUserId"></association>
+			column="{userId=user_id}"
+			select="com.sharemate.server.dao.UserMapper.getUserById"></association>
 		<association property="note"
 			column="{noteId=note_id}"
 			select="com.sharemate.server.dao.NoteMapper.getNoteByNoteId"></association>

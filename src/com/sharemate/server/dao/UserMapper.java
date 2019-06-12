@@ -30,6 +30,9 @@ public interface UserMapper {
 	 * @return
 	 */
 	public int updateUser(User user);
+	
+	public int updateUserPhoto(User user);
+	
 	/**
 	 * 插入用户
 	 * @param user
@@ -66,4 +69,7 @@ public interface UserMapper {
 
 	//根据userId查询用户
 	public User getUserByUserId(int userId);
+	
+	//根据userId查询用户
+	public User getUserById(int userId);
 }

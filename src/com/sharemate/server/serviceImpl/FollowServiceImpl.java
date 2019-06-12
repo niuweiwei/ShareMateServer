@@ -107,14 +107,15 @@ public class FollowServiceImpl implements FollowService {
 	 * 付娆
 	 */
 	@Override
-	public List<Follow> findGuanzhuUser(int userid) {
-		System.out.println("findguanzhuUserServiceimpl");
-		List<Follow> followlist=new ArrayList<Follow>();
-		Follow follow=new Follow();
-		follow.setFolloweduserid(1);
-		followlist.add(follow);
-		return followlist;
-	}
+	public List<Follow> findGuanzhuUser(int followuserid){
+//		System.out.println("findguanzhuUserServiceimpl");
+//		List<Follow> followlist=new ArrayList<Follow>();
+//		Follow follow=new Follow();
+//		follow.setFolloweduserid(userid);
+//		followlist.add(follow);
+//		return followlist;
+		return followMapper.findGuanzhuUser(followuserid);
+		}
 	
 	/*
 	 * 薇薇

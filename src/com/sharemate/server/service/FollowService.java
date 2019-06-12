@@ -28,7 +28,7 @@ public interface FollowService {
 	
 	public List<Follow> getFollowed(int userId);
 	/*付娆*/
-	public List<Follow> findGuanzhuUser(int userid);
+	public List<Follow> findGuanzhuUser(int followuserid);
 
 //	List<Follow> getFollowList(int followedId);
 

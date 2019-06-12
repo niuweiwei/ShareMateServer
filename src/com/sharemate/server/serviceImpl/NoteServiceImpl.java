@@ -10,6 +10,7 @@ import com.sharemate.entity.Comment;
 import com.sharemate.entity.Follow;
 import com.sharemate.entity.Like;
 import com.sharemate.entity.Note;
+import com.sharemate.entity.User;
 import com.sharemate.server.dao.NoteMapper;
 import com.sharemate.server.service.NoteService;
 
@@ -131,7 +132,30 @@ public class NoteServiceImpl implements NoteService{
 		// TODO Auto-generated method stub
 		return noteMapper.findCommentByNoteId(noteid);
 	}
-	
+	@Override
+	public void addPicAddress(Note note) {
+		noteMapper.addPicAddress(note);
+		
+	}
+
+	@Override
+	public User getUserPhoto(int userid) {
+		// TODO Auto-generated method stub
+		return noteMapper.getUserPhoto(userid);
+	}
+	@Override
+	public List<Collect> findCollectList(int userId) {
+		// TODO Auto-generated method stub
+		return noteMapper.findCollectList(userId);
+	}
+
+
+	@Override
+	public List<Like> findPickList(int userId) {
+		// TODO Auto-generated method stub
+		return noteMapper.findPickList(userId);
+	}
+
 	/*
 	 * 春柳
 	 */
@@ -237,4 +261,17 @@ public class NoteServiceImpl implements NoteService{
 		//分页查询得到附近笔记列表
 		return noteMapper.getNearbyNoteList(address);
 	}
+
+	@Override
+	public int findMaxNoteId() {
+		
+		return noteMapper.findMaxNoteId();
+	}
+
+	@Override
+	public int getUserIdByNoteId(int noteId) {
+		return noteMapper.getUserIdByNoteId(noteId);
+	}
+
+	
 }

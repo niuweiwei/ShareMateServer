@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sharemate.entity.Note;
+import com.sharemate.entity.User;
 import com.sharemate.server.service.CollectService;
 import com.sharemate.server.service.NoteService;
+import com.sharemate.server.service.UserService;
 
 import net.sf.json.JSONObject;
 
@@ -31,6 +33,8 @@ public class CollectController {
 	private CollectService collectService;
 	@Autowired
 	private NoteService noteService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/findCollectNote")
 	public void findCollectNote(int userId,HttpServletResponse resp) throws IOException {
@@ -40,6 +44,10 @@ public class CollectController {
 		for(int i=0;i<noteIdList.size();i++) {
 			System.out.println(noteIdList.get(i));
 			Note note = noteService.findNoteByNoteId(noteIdList.get(i));
+			int uId = noteService.getUserIdByNoteId(note.getNoteId());
+			User u = userService.findUserByUserId(uId);
+			System.out.println("u---"+u.toString());
+			note.setUser(u);
 			collectList.add(note);
 		}
 		JSONObject collectJson = new JSONObject();

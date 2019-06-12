@@ -93,4 +93,16 @@ public class UserServiceImpl implements UserService{
 		//根据userId查询用户
 		return userMapper.getUserByUserId(userId);
 	}
+
+	@Override
+	public User getUserById(int userId) {
+		// TODO Auto-generated method stub
+		return userMapper.getUserById(userId);
+	}
+
+	@Override
+	public int updateUserPhoto(User user) {
+		// TODO Auto-generated method stub
+		return userMapper.updateUserPhoto(user);
+	}
 }

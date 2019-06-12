@@ -21,9 +21,9 @@ public class CommentServiceImpl implements CommentService{
 	private UserMapper userMapper;
 
 	@Override
-	public List<Comment> getCommentListByNoteId(int noteId) {
+	public List<Comment> getCommentListByNote(int noteId) {
 		//根据noteId查询评论列表
-		return commentMapper.getCommentListByNoteId(noteId);
+		return commentMapper.getCommentListByNote(noteId);
 		
 	}
 
