@@ -233,8 +233,6 @@ public class UserController {
 			User u = userService.findUserByUserId(maxId);
 			result.put("user", u);
 			resp.getWriter().append(result.toString());
-		}else {
-			resp.getWriter().append("更新失败");
 		}
 	}
 	/**
@@ -269,9 +267,10 @@ public class UserController {
 		System.out.println("user---"+user);
 		System.out.println("更新了"+count+"行");
 		if(count != 0) {
-			resp.getWriter().append("更新成功");
-		}else {
-			resp.getWriter().append("更新失败");
+			User u = userService.findUserByUserId(userId);
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("user",u);
+			resp.getWriter().append(jsonObject.toString());
 		}
 	}
 	/**
@@ -305,10 +304,11 @@ public class UserController {
 					System.out.print(fileName);
 					//serverPath是项目运行后的路径,在使用ServletContext.getRealPath() 时，传入的参数是从 当前servlet 部署在tomcat中的文件夹算起的相对路径，要以"/" 开头，否则会找不到路径，导致NullPointerException
 					String serverPath = req.getSession().getServletContext().getRealPath("/");
-					fileName = "images/userPhotos/"+ userId+"new.jpg";
-					item.write(new File(serverPath+"\\images\\userPhotos\\"+fileName));
-					userPhoto = fileName;
-					System.out.println("userPhoto"+userPhoto);
+					System.out.println("serverPath---"+serverPath);
+					item.write(new File(serverPath+"images\\userPhotos\\"+fileName));
+					System.out.println("完整路径："+serverPath+"images\\userPhotos\\"+fileName);
+					userPhoto = "images/userPhotos/"+fileName;
+//					System.out.println("userPhoto---"+userPhoto);
 					User u = new User();
 					u.setUserId(userId);
 					u.setUserPhoto(userPhoto);
