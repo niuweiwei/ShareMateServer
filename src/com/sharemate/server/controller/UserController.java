@@ -255,6 +255,7 @@ public class UserController {
 		String userSex = object.getString("userSex");
 		String userBirth = object.getString("userBirth");
 		String userIntro = object.getString("userIntro");
+		String userPhoto = object.getString("userPhoto");
 		
 		User user = new User();
 		user.setUserId(userId);
@@ -263,6 +264,7 @@ public class UserController {
 		user.setUserBirth(userBirth);
 		user.setUserIntro(userIntro);
 		user.setUserSex(userSex);
+		user.setUserPhoto(userPhoto);
 		int count = userService.updateUser(user);
 		System.out.println("user---"+user);
 		System.out.println("更新了"+count+"行");
